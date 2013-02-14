@@ -18,7 +18,8 @@
     IBOutlet UIButton *callAcceptButton;
     IBOutlet UIButton *callRejectButton;
     IBOutlet UILabel *ringigngLabel;
-    IBOutlet UIActivityIndicatorView *activityIndicator;
+    IBOutlet UIActivityIndicatorView *callingActivityIndicator;
+    IBOutlet UIActivityIndicatorView *startingCallActivityIndicator;
     IBOutlet UIImageView *opponentVideoView;
     IBOutlet UIImageView *myVideoView;
     IBOutlet UINavigationBar *navBar;

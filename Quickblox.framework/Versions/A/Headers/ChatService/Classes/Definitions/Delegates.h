@@ -22,8 +22,7 @@
 //
 -(void) chatCallDidStopByUser:(NSUInteger)userID purpose:(NSString *)purpose;
 //
-//-(void) chatCallDidStartWithUser:(NSUInteger)userID;
-//-(void) chatCallDidEndWithUser:(NSUInteger)userID;
+-(void) chatCallDidStartWithUser:(NSUInteger)userID;
 //
 - (UIImageView *) viewToRenderOpponentVideoStream;
 - (UIImageView *) viewToRenderOwnVideoStream;

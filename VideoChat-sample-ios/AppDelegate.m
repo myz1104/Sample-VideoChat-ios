@@ -37,6 +37,11 @@
     [QBSettings setApplicationID:92];
     [QBSettings setAuthorizationKey:@"wJHdOcQSxXQGWx5"];
     [QBSettings setAuthorizationSecret:@"BTFsj7Rtt27DAmT"];
+    
+    NSMutableDictionary *videoChatConfiguration = [[QBSettings videoChatConfiguration] mutableCopy];
+    [videoChatConfiguration setObject:@20 forKey:kQBVideoChatCallTimeout];
+    [QBSettings setVideoChatConfiguration:videoChatConfiguration];
+
 
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];

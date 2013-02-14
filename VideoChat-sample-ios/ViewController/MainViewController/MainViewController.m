@@ -49,10 +49,11 @@
     callAcceptButton = nil;
     callRejectButton = nil;
     ringigngLabel = nil;
-    activityIndicator = nil;
+    callingActivityIndicator = nil;
     myVideoView = nil;
     opponentVideoView = nil;
     navBar = nil;
+    startingCallActivityIndicator = nil;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -83,7 +84,7 @@
         ringigngLabel.hidden = NO;
         ringigngLabel.text = @"Calling...";
         ringigngLabel.frame = CGRectMake(128, 375, 90, 37);
-        activityIndicator.hidden = NO;
+        callingActivityIndicator.hidden = NO;
 
     // Finish
     }else{
@@ -99,6 +100,8 @@
         [callButton setTitle:appDelegate.currentUser == 1 ? @"Call to User2" : @"Call to User1" forState:UIControlStateNormal];
         
         opponentVideoView.layer.borderWidth = 1;
+        
+        [startingCallActivityIndicator stopAnimating];
     }
 }
 
@@ -129,6 +132,8 @@
     callButton.tag = 102;
     
     opponentVideoView.layer.borderWidth = 0;
+    
+    [startingCallActivityIndicator startAnimating];
     
      myVideoView.hidden = NO;
     
@@ -180,7 +185,7 @@
     callAcceptButton.hidden = YES;
     callRejectButton.hidden = YES;
     ringigngLabel.hidden = YES;
-    activityIndicator.hidden = YES;
+    callingActivityIndicator.hidden = YES;
     
     callButton.tag = 101;
     
@@ -194,7 +199,7 @@
     
     callButton.hidden = NO;
     ringigngLabel.hidden = YES;
-    activityIndicator.hidden = YES;
+    callingActivityIndicator.hidden = YES;
     
     callButton.tag = 101;
     
@@ -207,7 +212,7 @@
     NSLog(@"chatCallDidAcceptByUser %d", userID);
     
     ringigngLabel.hidden = YES;
-    activityIndicator.hidden = YES;
+    callingActivityIndicator.hidden = YES;
     
     opponentVideoView.layer.borderWidth = 0;
     
@@ -216,6 +221,8 @@
     callButton.tag = 102;
     
      myVideoView.hidden = NO;
+    
+    [startingCallActivityIndicator startAnimating];
 }
 
 -(void) chatCallDidStopByUser:(NSUInteger)userID purpose:(NSString *)purpose{
@@ -238,6 +245,10 @@
         [callButton setTitle:appDelegate.currentUser == 1 ? @"Call to User2" : @"Call to User1" forState:UIControlStateNormal];
         callButton.tag = 101;
     }
+}
+
+- (void)chatCallDidStartWithUser:(NSUInteger)userID{
+    [startingCallActivityIndicator stopAnimating];
 }
 
 - (UIImageView *) viewToRenderOpponentVideoStream{
