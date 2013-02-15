@@ -10,7 +10,7 @@ Original sample description & setup guide - [http://quickblox.com/developers/Sim
 If you want to build your own iOS VideoChat app, please do the following:<br />
 1) download the project from here (GIT)<br />
 2) register a QuickBlox account (if you don't have one yet): http://admin.quickblox.com/register<br />
-3) log in to QuickBlox admin panel [http://admin.quickblox.com/signin]http://admin.quickblox.com/signin<br />
+3) log in to QuickBlox admin panel http://admin.quickblox.com/signin<br />
 4) create a new app <br />
 5) click on the app title in the list to reveal app details:<br />
 
