@@ -41,7 +41,7 @@
     
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     navBar.topItem.title = appDelegate.currentUser == 1 ? @"User 1" : @"User 2";
-    [callButton setTitle:appDelegate.currentUser == 1 ? @"Call to User2" : @"Call to User1" forState:UIControlStateNormal];
+    [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
 }
 
 - (void)viewDidUnload{
@@ -59,7 +59,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    // Start send chat presence
+    // Start sending chat presence
     //
     [QBChat instance].delegate = self;
     [NSTimer scheduledTimerWithTimeInterval:30 target:[QBChat instance] selector:@selector(sendPresence) userInfo:nil repeats:YES];
@@ -76,7 +76,7 @@
     if(callButton.tag == 101){
         callButton.tag = 102;
     
-        // Call to user with ID
+        // Call user by ID
         //
         [[QBChat instance] callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
         
@@ -97,7 +97,7 @@
         myVideoView.hidden = YES;
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [callButton setTitle:appDelegate.currentUser == 1 ? @"Call to User2" : @"Call to User1" forState:UIControlStateNormal];
+        [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
         
         opponentVideoView.layer.borderWidth = 1;
         
@@ -128,7 +128,7 @@
     callRejectButton.hidden = YES;
     ringigngLabel.hidden = YES;
     callButton.hidden = NO;
-    [callButton setTitle:@"Finish call" forState:UIControlStateNormal];
+    [callButton setTitle:@"Hang up" forState:UIControlStateNormal];
     callButton.tag = 102;
     
     opponentVideoView.layer.borderWidth = 0;
@@ -164,7 +164,7 @@
     callRejectButton.hidden = NO;
     ringigngLabel.hidden = NO;
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    ringigngLabel.text = [NSString stringWithFormat:@"%@ is calling. Answer please!", appDelegate.currentUser == 1 ? @"User 2" : @"User 1"];
+    ringigngLabel.text = [NSString stringWithFormat:@"%@ is calling. Would you like to answer?", appDelegate.currentUser == 1 ? @"User 2" : @"User 1"];
     ringigngLabel.frame = CGRectMake(0, 418, 320, 20);
     
     // Play music
@@ -189,7 +189,7 @@
     
     callButton.tag = 101;
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"QuickBlox VideoChat" message:@"Opponent did not answer. Try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"QuickBlox VideoChat" message:@"User isn't answering. Please try again." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
     [alert release];
 }
@@ -203,7 +203,7 @@
     
     callButton.tag = 101;
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"QuickBlox VideoChat" message:@"Opponent has rejected call." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"QuickBlox VideoChat" message:@"User has rejected your call." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
     [alert release];
 }
@@ -242,7 +242,7 @@
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
         opponentVideoView.layer.borderWidth = 1;
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [callButton setTitle:appDelegate.currentUser == 1 ? @"Call to User2" : @"Call to User1" forState:UIControlStateNormal];
+        [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
         callButton.tag = 101;
     }
 }

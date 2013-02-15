@@ -32,8 +32,8 @@
     
     
     //
-    // Set QuickBlox credentials (You must create application in admin.quickblox.com)
-    //
+    // Set QuickBlox credentials. Register at admin.quickblox.com, create a new app
+    // and copy credentials here to have your own backend instance enabled.
     [QBSettings setApplicationID:92];
     [QBSettings setAuthorizationKey:@"wJHdOcQSxXQGWx5"];
     [QBSettings setAuthorizationSecret:@"BTFsj7Rtt27DAmT"];
