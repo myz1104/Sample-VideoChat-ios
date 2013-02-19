@@ -217,7 +217,7 @@
     opponentVideoView.layer.borderWidth = 0;
     
     callButton.hidden = NO;
-    [callButton setTitle:@"Finish call" forState:UIControlStateNormal];
+    [callButton setTitle:@"Hang up" forState:UIControlStateNormal];
     callButton.tag = 102;
     
      myVideoView.hidden = NO;
@@ -225,10 +225,10 @@
     [startingCallActivityIndicator startAnimating];
 }
 
--(void) chatCallDidStopByUser:(NSUInteger)userID purpose:(NSString *)purpose{
-    NSLog(@"chatCallDidStopByUser %d purpose %@", userID, purpose);
+-(void) chatCallDidStopByUser:(NSUInteger)userID status:(NSString *)status{
+    NSLog(@"chatCallDidStopByUser %d purpose %@", userID, status);
     
-    if([purpose isEqualToString:kStopVideoChatCallPurpose_OpponentDidNotAnswer]){
+    if([status isEqualToString:kStopVideoChatCallStatus_OpponentDidNotAnswer]){
         callButton.hidden = NO;
         callAcceptButton.hidden = YES;
         callRejectButton.hidden = YES;
@@ -237,7 +237,7 @@
         [ringingPlayer release];
         ringingPlayer = nil;
     
-    }else if([purpose isEqualToString:kStopVideoChatCallPurpose_Manually]){
+    }else if([status isEqualToString:kStopVideoChatCallStatus_Manually]){
         myVideoView.hidden = YES;
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
         opponentVideoView.layer.borderWidth = 1;

@@ -18,7 +18,9 @@
 	NSString *invitedUser;
 	BOOL _isJoined;
 	NSMutableDictionary *occupants;
-    BOOL isPrivateRoom;
+    
+    BOOL isMembersOnlyRoom;
+    BOOL isPersistentRoom;
 }
 
 - (id)initWithRoomName:(NSString *)roomName nickName:(NSString *)nickName;
@@ -34,7 +36,8 @@
 
 @property (readwrite, copy) NSString *invitedUser;
 
-@property (nonatomic, assign) BOOL isPrivateRoom;
+@property (nonatomic, assign) BOOL isMembersOnlyRoom;
+@property (nonatomic, assign) BOOL isPersistentRoom;
 
 - (void)createOrJoinRoom;
 - (void)joinRoom;
