@@ -15,6 +15,7 @@
 
 
 @synthesize opponentID;
+@synthesize captureSession;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +28,7 @@
 
 - (void)dealloc{
     [opponentID release];
+    [captureSession release];
     
     [super dealloc];
 }
@@ -42,7 +44,113 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     navBar.topItem.title = appDelegate.currentUser == 1 ? @"User 1" : @"User 2";
     [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
+    
+    
+    
+    
+    captureSession = [[AVCaptureSession alloc] init];
+    
+    // set custom session
+    [[QBChat instance] setCustomVideoChatCaptureSession:captureSession];
+    
+    
+    NSError *error = nil;
+    
+    // set preset
+    [self.captureSession setSessionPreset:AVCaptureSessionPresetLow];
+    
+    // Setup the Video input
+    AVCaptureDevice *videoDevice = [self frontFacingCamera];
+        
+    AVCaptureDeviceInput *captureVideoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
+    if(error){
+        QBDLogEx(@"deviceInputWithDevice error: %@", error);
+    }else{
+        if ([self.captureSession  canAddInput:captureVideoInput]){
+            [self.captureSession addInput:captureVideoInput];
+        }else{
+            QBDLogEx(@"cantAddInput");
+        }
+    }
+    
+    
+    // Setup Video output
+    AVCaptureVideoDataOutput *videoCaptureOutput = [[AVCaptureVideoDataOutput alloc] init];
+    videoCaptureOutput.alwaysDiscardsLateVideoFrames = YES;
+    //
+    // Set the video output to store frame in BGRA (It is supposed to be faster)
+    NSString* key = (NSString*)kCVPixelBufferPixelFormatTypeKey;
+    NSNumber* value = [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA];
+    NSDictionary* videoSettings = [NSDictionary dictionaryWithObject:value forKey:key];
+    [videoCaptureOutput setVideoSettings:videoSettings];
+    /*And we create a capture session*/
+    if([self.captureSession canAddOutput:videoCaptureOutput]){
+        [self.captureSession addOutput:videoCaptureOutput];
+    }else{
+        QBDLogEx(@"cantAddOutput");
+    }
+    [videoCaptureOutput release];
+    
+    
+    // set FPS
+    int framesPerSecond = 10;
+    AVCaptureConnection *conn = [videoCaptureOutput connectionWithMediaType:AVMediaTypeVideo];
+    if (conn.isVideoMinFrameDurationSupported){
+        conn.videoMinFrameDuration = CMTimeMake(1, framesPerSecond);
+    }
+    if (conn.isVideoMaxFrameDurationSupported){
+        conn.videoMaxFrameDuration = CMTimeMake(1, framesPerSecond);
+    }
+    
+    
+    /*We create a serial queue to handle the processing of our frames*/
+    dispatch_queue_t videoQueue= dispatch_queue_create("cameraQueue", NULL);
+    [videoCaptureOutput setSampleBufferDelegate:self queue:videoQueue];
+    dispatch_release(videoQueue);
+    
+    // Add preview layer
+    AVCaptureVideoPreviewLayer *prewLayer = [[[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession] autorelease];
+	[prewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    CGRect layerRect = [[myVideoView layer] bounds];
+	[prewLayer setBounds:layerRect];
+	[prewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),CGRectGetMidY(layerRect))];
+    myVideoView.hidden = NO;
+    [myVideoView.layer addSublayer:prewLayer];
+    
+    
+    /*We start the capture*/
+    [self.captureSession startRunning];
 }
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput  didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    
+    //
+    // Do something with sampleBuffer
+    // ...
+    
+    
+    // forward sample buffer to QB Chat
+    [[QBChat instance] processVideoChatCaptureSample:sampleBuffer];
+}
+
+- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices) {
+        if ([device position] == position) {
+            return device;
+        }
+    }
+    return nil;
+}
+
+- (AVCaptureDevice *) backFacingCamera{
+    return [self cameraWithPosition:AVCaptureDevicePositionBack];
+}
+
+- (AVCaptureDevice *) frontFacingCamera{
+    return [self cameraWithPosition:AVCaptureDevicePositionFront];
+}
+
 
 - (void)viewDidUnload{
     callButton = nil;
@@ -94,7 +202,7 @@
         //
         [[QBChat instance] finishCall];
         
-        myVideoView.hidden = YES;
+//        myVideoView.hidden = YES;
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
@@ -135,7 +243,7 @@
     
     [startingCallActivityIndicator startAnimating];
     
-     myVideoView.hidden = NO;
+//     myVideoView.hidden = NO;
     
     [ringingPlayer release];
     ringingPlayer = nil;
@@ -220,7 +328,7 @@
     [callButton setTitle:@"Hang up" forState:UIControlStateNormal];
     callButton.tag = 102;
     
-     myVideoView.hidden = NO;
+//     myVideoView.hidden = NO;
     
     [startingCallActivityIndicator startAnimating];
 }
@@ -238,7 +346,7 @@
         ringingPlayer = nil;
     
     }else if([status isEqualToString:kStopVideoChatCallStatus_Manually]){
-        myVideoView.hidden = YES;
+//        myVideoView.hidden = YES;
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
         opponentVideoView.layer.borderWidth = 1;
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -256,9 +364,9 @@
     return opponentVideoView;
 }
 
-- (UIImageView *) viewToRenderOwnVideoStream{
-    NSLog(@"viewToRenderOwnVideoStreamw");
-    return myVideoView;
-}
+//- (UIImageView *) viewToRenderOwnVideoStream{
+//    NSLog(@"viewToRenderOwnVideoStreamw");
+//    return myVideoView;
+//}
 
 @end

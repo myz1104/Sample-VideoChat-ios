@@ -34,11 +34,11 @@
 		FA078F9C16C94869003E8E5A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = FA078F9316C94869003E8E5A /* logo.png */; };
 		FA078F9D16C94869003E8E5A /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = FA078F9416C94869003E8E5A /* person.png */; };
 		FA078F9E16C94869003E8E5A /* ringing.wav in Resources */ = {isa = PBXBuildFile; fileRef = FA078F9616C94869003E8E5A /* ringing.wav */; };
+		FA986FD61716F0A900CFAB72 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA986FD51716F0A900CFAB72 /* Quickblox.framework */; };
 		FACAA92116AD7AE200A81F91 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAA92016AD7AE200A81F91 /* QuartzCore.framework */; };
 		FACAA92316AD7B3500A81F91 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAA92216AD7B3500A81F91 /* AVFoundation.framework */; };
 		FACAA92516AD7B4500A81F91 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAA92416AD7B4500A81F91 /* CoreVideo.framework */; };
 		FACAA92716AD7B4A00A81F91 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAA92616AD7B4A00A81F91 /* CoreMedia.framework */; };
-		FAE968BD16CCF2FC00E90B8D /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE968BC16CCF2FC00E90B8D /* Quickblox.framework */; };
 		FAFF373716C2BF0500676978 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFF373616C2BF0500676978 /* Accelerate.framework */; };
 		FAFF373916C2BF4100676978 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFF373816C2BF4100676978 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
@@ -76,11 +76,11 @@
 		FA078F9316C94869003E8E5A /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		FA078F9416C94869003E8E5A /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		FA078F9616C94869003E8E5A /* ringing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ringing.wav; sourceTree = "<group>"; };
+		FA986FD51716F0A900CFAB72 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quickblox.framework; path = "../SDK-ios/Framework/build/Framework/Quickblox.framework"; sourceTree = "<group>"; };
 		FACAA92016AD7AE200A81F91 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FACAA92216AD7B3500A81F91 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		FACAA92416AD7B4500A81F91 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		FACAA92616AD7B4A00A81F91 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		FAE968BC16CCF2FC00E90B8D /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		FAFF373616C2BF0500676978 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		FAFF373816C2BF4100676978 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -107,7 +107,7 @@
 				43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */,
 				43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */,
 				43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */,
-				FAE968BD16CCF2FC00E90B8D /* Quickblox.framework in Frameworks */,
+				FA986FD61716F0A900CFAB72 /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +136,7 @@
 		43774BDC160893D500DDBF12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FAE968BC16CCF2FC00E90B8D /* Quickblox.framework */,
+				FA986FD51716F0A900CFAB72 /* Quickblox.framework */,
 				FAFF373816C2BF4100676978 /* AudioToolbox.framework */,
 				FAFF373616C2BF0500676978 /* Accelerate.framework */,
 				FACAA92616AD7B4A00A81F91 /* CoreMedia.framework */,
@@ -406,6 +406,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../SDK-ios/Framework/build/Framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoChat-sample-ios/videoChat-Prefix.pch";
@@ -439,6 +440,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../SDK-ios/Framework/build/Framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoChat-sample-ios/videoChat-Prefix.pch";

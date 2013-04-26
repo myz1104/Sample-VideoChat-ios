@@ -13,7 +13,9 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate>{
+@interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate,
+AVCaptureVideoDataOutputSampleBufferDelegate>{
+    
     IBOutlet UIButton *callButton;
     IBOutlet UIButton *callAcceptButton;
     IBOutlet UIButton *callRejectButton;
@@ -28,6 +30,7 @@
 }
 
 @property (retain) NSNumber *opponentID;
+@property (retain) AVCaptureSession *captureSession;
 
 - (IBAction)call:(id)sender;
 - (IBAction)reject:(id)sender;
