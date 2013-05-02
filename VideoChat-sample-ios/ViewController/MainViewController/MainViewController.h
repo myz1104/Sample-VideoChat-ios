@@ -14,7 +14,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate,
-AVCaptureVideoDataOutputSampleBufferDelegate>{
+AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>{
     
     IBOutlet UIButton *callButton;
     IBOutlet UIButton *callAcceptButton;

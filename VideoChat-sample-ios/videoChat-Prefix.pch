@@ -9,6 +9,7 @@
     #import <Foundation/Foundation.h>
     #import <Quickblox/Quickblox.h>
     #import <QuartzCore/QuartzCore.h>
+    #import <Accelerate/Accelerate.h>
 
     #define IS_HEIGHT_GTE_568 [[UIScreen mainScreen ] bounds].size.height >= 568.0f
 #endif
