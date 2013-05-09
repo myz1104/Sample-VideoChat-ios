@@ -74,20 +74,20 @@
         }
     }
     
-    // Setup the Audio input
-    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeAudio];
-    AVCaptureDevice *audioDevice = devices[0];
-    //
-    AVCaptureDeviceInput *captureAudioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:&error];
-    if(error){
-        QBDLogEx(@"deviceInputWithDevice Audio error: %@", error);
-    }else{
-        if ([self.captureSession  canAddInput:captureAudioInput]){
-            [self.captureSession addInput:captureAudioInput];
-        }else{
-            QBDLogEx(@"cantAddInput Audio");
-        }
-    }
+//    // Setup the Audio input
+//    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeAudio];
+//    AVCaptureDevice *audioDevice = devices[0];
+//    //
+//    AVCaptureDeviceInput *captureAudioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:&error];
+//    if(error){
+//        QBDLogEx(@"deviceInputWithDevice Audio error: %@", error);
+//    }else{
+//        if ([self.captureSession  canAddInput:captureAudioInput]){
+//            [self.captureSession addInput:captureAudioInput];
+//        }else{
+//            QBDLogEx(@"cantAddInput Audio");
+//        }
+//    }
     
     
     
@@ -109,21 +109,21 @@
     [videoCaptureOutput release];
     
     
-    // Setup Audio output
-    AVCaptureAudioDataOutput *audioCaptureOutput = [[AVCaptureAudioDataOutput alloc] init];
-    // 
-//    // Set audio settings
-//    // See https://developer.apple.com/library/mac/#documentation/AVFoundation/Reference/AVFoundationAudioSettings_Constants/Reference/reference.html
-//    NSDictionary *audioSettings = @{AVSampleRateKey : @8000.0,
-//                                    AVNumberOfChannelsKey: @1.0,
-//                                    AVLinearPCMIsFloatKey: @YES,
-//                                    AVLinearPCMIsNonInterleaved: @YES};
-    if([self.captureSession canAddOutput:audioCaptureOutput]){
-        [self.captureSession addOutput:audioCaptureOutput];
-    }else{
-        QBDLogEx(@"cantAddOutput");
-    }
-    [audioCaptureOutput release];
+//    // Setup Audio output
+//    AVCaptureAudioDataOutput *audioCaptureOutput = [[AVCaptureAudioDataOutput alloc] init];
+//    // 
+////    // Set audio settings
+////    // See https://developer.apple.com/library/mac/#documentation/AVFoundation/Reference/AVFoundationAudioSettings_Constants/Reference/reference.html
+////    NSDictionary *audioSettings = @{AVSampleRateKey : @8000.0,
+////                                    AVNumberOfChannelsKey: @1.0,
+////                                    AVLinearPCMIsFloatKey: @YES,
+////                                    AVLinearPCMIsNonInterleaved: @YES};
+//    if([self.captureSession canAddOutput:audioCaptureOutput]){
+//        [self.captureSession addOutput:audioCaptureOutput];
+//    }else{
+//        QBDLogEx(@"cantAddOutput");
+//    }
+//    [audioCaptureOutput release];
     
     
     
@@ -141,7 +141,7 @@
     /*We create a serial queue to handle the processing of our frames*/
     dispatch_queue_t callbackQueue= dispatch_queue_create("cameraQueue", NULL);
     [videoCaptureOutput setSampleBufferDelegate:self queue:callbackQueue];
-    [audioCaptureOutput setSampleBufferDelegate:self queue:callbackQueue];
+//    [audioCaptureOutput setSampleBufferDelegate:self queue:callbackQueue];
     dispatch_release(callbackQueue);
     
     // Add preview layer
@@ -168,48 +168,11 @@
     //
     // video
     if([captureOutput isKindOfClass:AVCaptureVideoDataOutput.class]){
-        [[QBChat instance] processVideoChatCaptureSample:sampleBuffer];
+        [[QBChat instance] processVideoChatCaptureVideoSample:sampleBuffer];
        
     // audio
     }else if([captureOutput isKindOfClass:AVCaptureAudioDataOutput.class]){
-        
-        CMItemCount numSamples = CMSampleBufferGetNumSamples(sampleBuffer);
-        CMBlockBufferRef audioBuffer = CMSampleBufferGetDataBuffer(sampleBuffer);
-        size_t lengthAtOffset;
-        size_t totalLength;
-        char *samples;
-        CMBlockBufferGetDataPointer(audioBuffer, 0, &lengthAtOffset, &totalLength, &samples);
-        
-        NSLog(@"Samples %ld, totalLength %ld", numSamples, totalLength);
-        
-        // The default sample format for the iPhone mic is linear PCM, with 16 bit samples.
-        // This may be mono or stereo depending on if there is an external mic or not.
-        // To calculate the FFT we need to have a float vector.
-        //
-        // check what sample format we have
-        // this should always be linear PCM
-        // but may have 1 or 2 channels
-        CMAudioFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
-        const AudioStreamBasicDescription *desc = CMAudioFormatDescriptionGetStreamBasicDescription(format);
-        assert(desc->mFormatID == kAudioFormatLinearPCM);
-        if (desc->mChannelsPerFrame == 1 && desc->mBitsPerChannel == 16) {
-            float *convertedSamples = malloc(numSamples * sizeof(float));
-            vDSP_vflt16((short *)samples, 1, convertedSamples, 1, numSamples);
-            
-           
-            // print
-            NSMutableString *res = [NSMutableString string];
-            for(int y=0; y<numSamples; ++y){
-                [res appendFormat:@"%f ",  convertedSamples[y]];
-            }
-            QBDLog(@"convertedSamples: %@", res);
-            
-            
-        } else {
-            // handle other cases as required
-        }
-        
-         //[[QBChat instance] processVideoChatCaptureAudioSample:sampleBuffer];
+//        [[QBChat instance] processVideoChatCaptureAudioSample:sampleBuffer];
     }
 }
 
