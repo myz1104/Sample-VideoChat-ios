@@ -108,6 +108,8 @@
     }
     [videoCaptureOutput release];
     
+
+    
     
 //    // Setup Audio output
 //    AVCaptureAudioDataOutput *audioCaptureOutput = [[AVCaptureAudioDataOutput alloc] init];
