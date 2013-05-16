@@ -11,8 +11,11 @@
 
 @interface MainViewController ()
 @end
-@implementation MainViewController
 
+@implementation MainViewController{
+    int64_t sample_position_ ;
+    CMAudioFormatDescriptionRef audio_fmt_desc_;
+}
 
 @synthesize opponentID;
 @synthesize captureSession;
@@ -45,16 +48,13 @@
     navBar.topItem.title = appDelegate.currentUser == 1 ? @"User 1" : @"User 2";
     [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
     
-    
-    
-    
     captureSession = [[AVCaptureSession alloc] init];
     
     // set custom session
     [[QBChat instance] setCustomVideoChatCaptureSession:captureSession];
     
     
-    NSError *error = nil;
+    __block NSError *error = nil;
     
     // set preset
     [self.captureSession setSessionPreset:AVCaptureSessionPresetLow];
@@ -74,23 +74,6 @@
         }
     }
     
-//    // Setup the Audio input
-//    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeAudio];
-//    AVCaptureDevice *audioDevice = devices[0];
-//    //
-//    AVCaptureDeviceInput *captureAudioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:&error];
-//    if(error){
-//        QBDLogEx(@"deviceInputWithDevice Audio error: %@", error);
-//    }else{
-//        if ([self.captureSession  canAddInput:captureAudioInput]){
-//            [self.captureSession addInput:captureAudioInput];
-//        }else{
-//            QBDLogEx(@"cantAddInput Audio");
-//        }
-//    }
-    
-    
-    
     // Setup Video output
     AVCaptureVideoDataOutput *videoCaptureOutput = [[AVCaptureVideoDataOutput alloc] init];
     videoCaptureOutput.alwaysDiscardsLateVideoFrames = YES;
@@ -109,26 +92,6 @@
     [videoCaptureOutput release];
     
 
-    
-    
-//    // Setup Audio output
-//    AVCaptureAudioDataOutput *audioCaptureOutput = [[AVCaptureAudioDataOutput alloc] init];
-//    // 
-////    // Set audio settings
-////    // See https://developer.apple.com/library/mac/#documentation/AVFoundation/Reference/AVFoundationAudioSettings_Constants/Reference/reference.html
-////    NSDictionary *audioSettings = @{AVSampleRateKey : @8000.0,
-////                                    AVNumberOfChannelsKey: @1.0,
-////                                    AVLinearPCMIsFloatKey: @YES,
-////                                    AVLinearPCMIsNonInterleaved: @YES};
-//    if([self.captureSession canAddOutput:audioCaptureOutput]){
-//        [self.captureSession addOutput:audioCaptureOutput];
-//    }else{
-//        QBDLogEx(@"cantAddOutput");
-//    }
-//    [audioCaptureOutput release];
-    
-    
-    
     // set FPS
     int framesPerSecond = 10;
     AVCaptureConnection *conn = [videoCaptureOutput connectionWithMediaType:AVMediaTypeVideo];
@@ -139,11 +102,9 @@
         conn.videoMaxFrameDuration = CMTimeMake(1, framesPerSecond);
     }
     
-    
     /*We create a serial queue to handle the processing of our frames*/
     dispatch_queue_t callbackQueue= dispatch_queue_create("cameraQueue", NULL);
     [videoCaptureOutput setSampleBufferDelegate:self queue:callbackQueue];
-//    [audioCaptureOutput setSampleBufferDelegate:self queue:callbackQueue];
     dispatch_release(callbackQueue);
     
     // Add preview layer
@@ -154,11 +115,93 @@
 	[prewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),CGRectGetMidY(layerRect))];
     myVideoView.hidden = NO;
     [myVideoView.layer addSublayer:prewLayer];
-    
-    
+
+        
     /*We start the capture*/
     [self.captureSession startRunning];
+    
+    
+    
+    
+    
+
+    
+    // Setup Novocaine
+    //
+    // Magic numbers
+    // ...
+    sample_position_ = 0;
+    audio_fmt_desc_ = nil;
+    int nchannels = 1;
+    AudioStreamBasicDescription audioFormat;
+    bzero(&audioFormat, sizeof(audioFormat));
+    audioFormat.mSampleRate = 8000;
+    audioFormat.mFormatID   = kAudioFormatLinearPCM;
+    audioFormat.mFramesPerPacket = 1;
+    audioFormat.mChannelsPerFrame = 1;
+    int bytes_per_sample = sizeof(float);
+    audioFormat.mFormatFlags = kAudioFormatFlagIsFloat | kAudioFormatFlagIsAlignedHigh;
+    audioFormat.mBitsPerChannel = bytes_per_sample * 8;
+    audioFormat.mBytesPerPacket = bytes_per_sample * nchannels;
+    audioFormat.mBytesPerFrame = bytes_per_sample * nchannels;
+    CMAudioFormatDescriptionCreate(kCFAllocatorDefault, &audioFormat, 0, NULL, 0, NULL, NULL, &audio_fmt_desc_);
+    //
+    //
+    QBNovocaine	*audioManager = [QBNovocaine audioManager];
+    audioManager.managingFromApplication = YES; // Mark that we manage it, not SDK
+    [audioManager routeToSpeaker];
+    //
+    // manage data from microphone
+    [audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
+
+        //
+        // Do something with data
+        // ...
+        
+        CMSampleBufferRef sampleBuffer = [self convertToSampleBufferFromAudioData:data sampleCount:numFrames channelCount:numChannels];
+        //
+        // check
+        CMAudioFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
+        const AudioStreamBasicDescription *desc = CMAudioFormatDescriptionGetStreamBasicDescription(format);
+        NSLog(@"rate %f", desc->mSampleRate);
+        
+        // forward data to QB Chat
+        //
+        [[QBChat instance] processVideoChatCaptureAudioData:data numFrames:numFrames numChannels:numChannels];
+    }];
 }
+
+- (CMSampleBufferRef) convertToSampleBufferFromAudioData: (float*) samples sampleCount: (size_t) n channelCount: (size_t) nchans
+{
+    OSStatus status;
+    CMBlockBufferRef bbuf = NULL;
+    CMSampleBufferRef sbuf = NULL;
+    
+    size_t buflen = n * nchans * sizeof(float);
+    // Create sample buffer for adding to the audio input.
+    status = CMBlockBufferCreateWithMemoryBlock(kCFAllocatorDefault,samples,buflen,kCFAllocatorNull,NULL,0,buflen,0,&bbuf);
+    
+    if (status != noErr) {
+        NSLog(@"CMBlockBufferCreateWithMemoryBlock error");
+        return -1;
+    }
+    
+    CMTime timestamp = CMTimeMake(sample_position_, 44100);
+    sample_position_ += n;
+    
+    status = CMAudioSampleBufferCreateWithPacketDescriptions(kCFAllocatorDefault, bbuf, TRUE, 0, NULL, audio_fmt_desc_, 1, timestamp, NULL, &sbuf);
+    if (status != noErr) {
+        NSLog(@"CMSampleBufferCreate error");
+        return -1;
+    }
+
+    
+    CFRelease(bbuf);
+    [(id)sbuf autorelease];
+    
+    return sbuf;
+}
+
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput  didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
     
@@ -168,16 +211,10 @@
     
     // forward sample buffer to QB Chat
     //
-    // video
     if([captureOutput isKindOfClass:AVCaptureVideoDataOutput.class]){
         [[QBChat instance] processVideoChatCaptureVideoSample:sampleBuffer];
-       
-    // audio
-    }else if([captureOutput isKindOfClass:AVCaptureAudioDataOutput.class]){
-//        [[QBChat instance] processVideoChatCaptureAudioSample:sampleBuffer];
     }
 }
-
 
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position{
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
@@ -293,6 +330,12 @@
     
     [ringingPlayer release];
     ringingPlayer = nil;
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC),
+//                   dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                       [self.captureSession stopRunning];
+//                       [self.captureSession startRunning];
+//                   });
 }
 
 
@@ -377,6 +420,12 @@
 //     myVideoView.hidden = NO;
     
     [startingCallActivityIndicator startAnimating];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC),
+//                   dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                       [self.captureSession stopRunning];
+//                       [self.captureSession startRunning];
+//                   });
 }
 
 -(void) chatCallDidStopByUser:(NSUInteger)userID status:(NSString *)status{
@@ -391,7 +440,7 @@
         [ringingPlayer release];
         ringingPlayer = nil;
     
-    }else if([status isEqualToString:kStopVideoChatCallStatus_Manually]){
+    }else{
 //        myVideoView.hidden = YES;
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
         opponentVideoView.layer.borderWidth = 1;

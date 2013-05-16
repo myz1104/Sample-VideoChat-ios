@@ -40,8 +40,6 @@
     
     NSMutableDictionary *videoChatConfiguration = [[QBSettings videoChatConfiguration] mutableCopy];
     [videoChatConfiguration setObject:@20 forKey:kQBVideoChatCallTimeout];
-    [videoChatConfiguration setObject:AVCaptureSessionPresetLow forKey:kQBVideoChatFrameQualityPreset];
-    
     [QBSettings setVideoChatConfiguration:videoChatConfiguration];
 
 
