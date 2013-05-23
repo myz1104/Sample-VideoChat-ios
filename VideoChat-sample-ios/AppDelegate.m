@@ -27,8 +27,8 @@
     //
     // This is test oppoents. This is 2 users' logins/passwords & ids
     //
-    self.testOpponents = @[@"videoChatUser1", @65421,
-                      @"videoChatUser2", @65422];
+    self.testOpponents = @[@"DevVideoChatUser11", @177567,
+                      @"DevVideoChatUser22", @177568];
     
     
     //

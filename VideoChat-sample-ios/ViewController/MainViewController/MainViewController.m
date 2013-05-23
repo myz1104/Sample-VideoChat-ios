@@ -50,8 +50,11 @@
     
     captureSession = [[AVCaptureSession alloc] init];
     
-    // set custom session
-    [[QBChat instance] setCustomVideoChatCaptureSession:captureSession];
+    // Create video chat
+    videoChat = [[[QBChat instance] createAndRegisterVideoChatInstance] retain];
+    [videoChat setCustomVideoChatCaptureSession:captureSession];
+    // set views
+    videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
     
     
     __block NSError *error = nil;
@@ -147,28 +150,28 @@
     CMAudioFormatDescriptionCreate(kCFAllocatorDefault, &audioFormat, 0, NULL, 0, NULL, NULL, &audio_fmt_desc_);
     //
     //
-    QBNovocaine	*audioManager = [QBNovocaine audioManager];
-    audioManager.managingFromApplication = YES; // Mark that we manage it, not SDK
-    [audioManager routeToSpeaker];
-    //
-    // manage data from microphone
-    [audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
-
-        //
-        // Do something with data
-        // ...
-        
-        CMSampleBufferRef sampleBuffer = [self convertToSampleBufferFromAudioData:data sampleCount:numFrames channelCount:numChannels];
-        //
-        // check
-        CMAudioFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
-        const AudioStreamBasicDescription *desc = CMAudioFormatDescriptionGetStreamBasicDescription(format);
-        NSLog(@"rate %f", desc->mSampleRate);
-        
-        // forward data to QB Chat
-        //
-        [[QBChat instance] processVideoChatCaptureAudioData:data numFrames:numFrames numChannels:numChannels];
-    }];
+//    QBNovocaine	*audioManager = [QBNovocaine audioManager];
+//    audioManager.managingFromApplication = YES; // Mark that we manage it, not SDK
+//    [audioManager routeToSpeaker];
+//    //
+//    // manage data from microphone
+//    [audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
+//
+//        //
+//        // Do something with data
+//        // ...
+//        
+//        CMSampleBufferRef sampleBuffer = [self convertToSampleBufferFromAudioData:data sampleCount:numFrames channelCount:numChannels];
+//        //
+//        // check
+//        CMAudioFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
+//        const AudioStreamBasicDescription *desc = CMAudioFormatDescriptionGetStreamBasicDescription(format);
+////        NSLog(@"rate %f", desc->mSampleRate);
+//        
+//        // forward data to QB Chat
+//        //
+//        [videoChat processVideoChatCaptureAudioData:data numFrames:numFrames numChannels:numChannels];
+//    }];
 }
 
 - (CMSampleBufferRef) convertToSampleBufferFromAudioData: (float*) samples sampleCount: (size_t) n channelCount: (size_t) nchans
@@ -212,7 +215,7 @@
     // forward sample buffer to QB Chat
     //
     if([captureOutput isKindOfClass:AVCaptureVideoDataOutput.class]){
-        [[QBChat instance] processVideoChatCaptureVideoSample:sampleBuffer];
+        [videoChat processVideoChatCaptureVideoSample:sampleBuffer];
     }
 }
 
@@ -236,6 +239,12 @@
 
 
 - (void)viewDidUnload{
+    
+    [[QBChat instance] unregisterVideoChatInstance:videoChat];
+    [videoChat release];
+    videoChat = nil;
+    
+    
     callButton = nil;
     callAcceptButton = nil;
     callRejectButton = nil;
@@ -269,7 +278,7 @@
     
         // Call user by ID
         //
-        [[QBChat instance] callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
+        [videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
         
         callButton.hidden = YES;
         ringigngLabel.hidden = NO;
@@ -283,7 +292,7 @@
         
         // Finish call
         //
-        [[QBChat instance] finishCall];
+        [videoChat finishCall];
         
 //        myVideoView.hidden = YES;
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
@@ -299,7 +308,7 @@
 - (IBAction)reject:(id)sender{
     // Reject call
     //
-    [[QBChat instance] rejectCall];
+    [videoChat rejectCall];
     
     callButton.hidden = NO;
     callAcceptButton.hidden = YES;
@@ -313,7 +322,7 @@
 - (IBAction)accept:(id)sender{
     // Accept call
     //
-    [[QBChat instance] acceptCall];
+    [videoChat acceptCall];
     
     callAcceptButton.hidden = YES;
     callRejectButton.hidden = YES;
@@ -330,12 +339,6 @@
     
     [ringingPlayer release];
     ringingPlayer = nil;
-    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC),
-//                   dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                       [self.captureSession stopRunning];
-//                       [self.captureSession startRunning];
-//                   });
 }
 
 
@@ -453,15 +456,5 @@
 - (void)chatCallDidStartWithUser:(NSUInteger)userID{
     [startingCallActivityIndicator stopAnimating];
 }
-
-- (UIImageView *) viewToRenderOpponentVideoStream{
-    NSLog(@"viewToRenderOpponentVideoStream");
-    return opponentVideoView;
-}
-
-//- (UIImageView *) viewToRenderOwnVideoStream{
-//    NSLog(@"viewToRenderOwnVideoStreamw");
-//    return myVideoView;
-//}
 
 @end

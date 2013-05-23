@@ -27,6 +27,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBuff
     IBOutlet UINavigationBar *navBar;
     
     AVAudioPlayer *ringingPlayer;
+    
+    QBVideoChat *videoChat;
 }
 
 @property (retain) NSNumber *opponentID;
