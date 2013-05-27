@@ -16,15 +16,6 @@
 
 @synthesize opponentID;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)dealloc{
     [opponentID release];
     
@@ -42,9 +33,22 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     navBar.topItem.title = appDelegate.currentUser == 1 ? @"User 1" : @"User 2";
     [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
+    
+    
+    // Setup video chat
+    //
+    self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstance];
+    self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
+    self.videoChat.viewToRenderOwnVideoStream = myVideoView;
 }
 
 - (void)viewDidUnload{
+    // release video chat
+    //
+    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+    self.videoChat = nil;
+    
+    
     callButton = nil;
     callAcceptButton = nil;
     callRejectButton = nil;
@@ -65,12 +69,6 @@
     [NSTimer scheduledTimerWithTimeInterval:30 target:[QBChat instance] selector:@selector(sendPresence) userInfo:nil repeats:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)call:(id)sender{
     // Call
     if(callButton.tag == 101){
@@ -78,7 +76,7 @@
     
         // Call user by ID
         //
-        [[QBChat instance] callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
+        [self.videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
         
         callButton.hidden = YES;
         ringigngLabel.hidden = NO;
@@ -92,7 +90,7 @@
         
         // Finish call
         //
-        [[QBChat instance] finishCall];
+        [self.videoChat finishCall];
         
         myVideoView.hidden = YES;
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
@@ -108,8 +106,8 @@
 - (IBAction)reject:(id)sender{
     // Reject call
     //
-    [[QBChat instance] rejectCall];
-    
+    [self.videoChat rejectCall];
+
     callButton.hidden = NO;
     callAcceptButton.hidden = YES;
     callRejectButton.hidden = YES;
@@ -122,7 +120,7 @@
 - (IBAction)accept:(id)sender{
     // Accept call
     //
-    [[QBChat instance] acceptCall];
+    [self.videoChat acceptCall];
     
     callAcceptButton.hidden = YES;
     callRejectButton.hidden = YES;
@@ -249,16 +247,6 @@
 
 - (void)chatCallDidStartWithUser:(NSUInteger)userID{
     [startingCallActivityIndicator stopAnimating];
-}
-
-- (UIImageView *) viewToRenderOpponentVideoStream{
-    NSLog(@"viewToRenderOpponentVideoStream");
-    return opponentVideoView;
-}
-
-- (UIImageView *) viewToRenderOwnVideoStream{
-    NSLog(@"viewToRenderOwnVideoStreamw");
-    return myVideoView;
 }
 
 @end

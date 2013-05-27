@@ -28,6 +28,7 @@
 }
 
 @property (retain) NSNumber *opponentID;
+@property (retain) QBVideoChat *videoChat;
 
 - (IBAction)call:(id)sender;
 - (IBAction)reject:(id)sender;
