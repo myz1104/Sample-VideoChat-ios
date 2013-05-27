@@ -39,7 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     opponentVideoView.layer.borderWidth = 1;
     opponentVideoView.layer.borderColor = [[UIColor grayColor] CGColor];
     opponentVideoView.layer.cornerRadius = 5;
@@ -150,28 +150,28 @@
     CMAudioFormatDescriptionCreate(kCFAllocatorDefault, &audioFormat, 0, NULL, 0, NULL, NULL, &audio_fmt_desc_);
     //
     //
-//    QBNovocaine	*audioManager = [QBNovocaine audioManager];
-//    audioManager.managingFromApplication = YES; // Mark that we manage it, not SDK
-//    [audioManager routeToSpeaker];
-//    //
-//    // manage data from microphone
-//    [audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
-//
-//        //
-//        // Do something with data
-//        // ...
-//        
-//        CMSampleBufferRef sampleBuffer = [self convertToSampleBufferFromAudioData:data sampleCount:numFrames channelCount:numChannels];
-//        //
-//        // check
-//        CMAudioFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
-//        const AudioStreamBasicDescription *desc = CMAudioFormatDescriptionGetStreamBasicDescription(format);
-////        NSLog(@"rate %f", desc->mSampleRate);
-//        
-//        // forward data to QB Chat
-//        //
-//        [videoChat processVideoChatCaptureAudioData:data numFrames:numFrames numChannels:numChannels];
-//    }];
+    QBNovocaine	*audioManager = [QBNovocaine audioManager];
+    audioManager.managingFromApplication = YES; // Mark that we manage it, not SDK
+    [audioManager routeToSpeaker];
+    //
+    // manage data from microphone
+    [audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
+
+        //
+        // Do something with data
+        // ...
+        
+        CMSampleBufferRef sampleBuffer = [self convertToSampleBufferFromAudioData:data sampleCount:numFrames channelCount:numChannels];
+        //
+        // check
+        CMAudioFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
+        const AudioStreamBasicDescription *desc = CMAudioFormatDescriptionGetStreamBasicDescription(format);
+        NSLog(@"rate %f", desc->mSampleRate);
+        
+        // forward data to QB Chat
+        //
+        [videoChat processVideoChatCaptureAudioData:data numFrames:numFrames numChannels:numChannels];
+    }];
 }
 
 - (CMSampleBufferRef) convertToSampleBufferFromAudioData: (float*) samples sampleCount: (size_t) n channelCount: (size_t) nchans
