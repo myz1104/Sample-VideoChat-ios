@@ -13,10 +13,8 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate>{
+@interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate, UIAlertViewDelegate>{
     IBOutlet UIButton *callButton;
-    IBOutlet UIButton *callAcceptButton;
-    IBOutlet UIButton *callRejectButton;
     IBOutlet UILabel *ringigngLabel;
     IBOutlet UIActivityIndicatorView *callingActivityIndicator;
     IBOutlet UIActivityIndicatorView *startingCallActivityIndicator;
@@ -29,9 +27,10 @@
 
 @property (retain) NSNumber *opponentID;
 @property (retain) QBVideoChat *videoChat;
+@property (retain) UIAlertView *callAlert;
 
 - (IBAction)call:(id)sender;
-- (IBAction)reject:(id)sender;
-- (IBAction)accept:(id)sender;
+- (void)reject;
+- (void)accept;
 
 @end

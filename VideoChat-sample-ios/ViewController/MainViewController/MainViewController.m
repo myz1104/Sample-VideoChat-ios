@@ -50,8 +50,6 @@
     
     
     callButton = nil;
-    callAcceptButton = nil;
-    callRejectButton = nil;
     ringigngLabel = nil;
     callingActivityIndicator = nil;
     myVideoView = nil;
@@ -103,27 +101,25 @@
     }
 }
 
-- (IBAction)reject:(id)sender{
+- (void)reject{
     // Reject call
     //
     [self.videoChat rejectCall];
 
     callButton.hidden = NO;
-    callAcceptButton.hidden = YES;
-    callRejectButton.hidden = YES;
+    
+
     ringigngLabel.hidden = YES;
     
     [ringingPlayer release];
     ringingPlayer = nil;
 }
 
-- (IBAction)accept:(id)sender{
+- (void)accept{
     // Accept call
     //
     [self.videoChat acceptCall];
-    
-    callAcceptButton.hidden = YES;
-    callRejectButton.hidden = YES;
+
     ringigngLabel.hidden = YES;
     callButton.hidden = NO;
     [callButton setTitle:@"Hang up" forState:UIControlStateNormal];
@@ -158,14 +154,18 @@
     NSLog(@"chatDidReceiveCallRequestFromUser %d", userID);
     
     callButton.hidden = YES;
-    callAcceptButton.hidden = NO;
-    callRejectButton.hidden = NO;
-    ringigngLabel.hidden = NO;
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    ringigngLabel.text = [NSString stringWithFormat:@"%@ is calling. Would you like to answer?", appDelegate.currentUser == 1 ? @"User 2" : @"User 1"];
-    ringigngLabel.frame = CGRectMake(0, 418, 320, 20);
     
-    // Play music
+    // show call alert
+    //
+    if (self.callAlert == nil) {
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        NSString *message = [NSString stringWithFormat:@"%@ is calling. Would you like to answer?", appDelegate.currentUser == 1 ? @"User 2" : @"User 1"];
+        self.callAlert = [[UIAlertView alloc] initWithTitle:@"Call" message:message delegate:self cancelButtonTitle:@"Decline" otherButtonTitles:@"Accept", nil];
+        [self.callAlert show];
+    }
+    
+    // play call music
+    //
     if(ringingPlayer == nil){
         NSString *path =[[NSBundle mainBundle] pathForResource:@"ringing" ofType:@"wav"];
         NSURL *url = [NSURL fileURLWithPath:path];
@@ -180,8 +180,7 @@
     NSLog(@"chatCallUserDidNotAnswer %d", userID);
     
     callButton.hidden = NO;
-    callAcceptButton.hidden = YES;
-    callRejectButton.hidden = YES;
+
     ringigngLabel.hidden = YES;
     callingActivityIndicator.hidden = YES;
     
@@ -228,8 +227,11 @@
     
     if([status isEqualToString:kStopVideoChatCallStatus_OpponentDidNotAnswer]){
         callButton.hidden = NO;
-        callAcceptButton.hidden = YES;
-        callRejectButton.hidden = YES;
+        
+        self.callAlert.delegate = nil;
+        [self.callAlert dismissWithClickedButtonIndex:0 animated:YES];
+        self.callAlert = nil;
+     
         ringigngLabel.hidden = YES;
         
         [ringingPlayer release];
@@ -247,6 +249,28 @@
 
 - (void)chatCallDidStartWithUser:(NSUInteger)userID{
     [startingCallActivityIndicator stopAnimating];
+}
+
+
+#pragma mark -
+#pragma mark UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        // Reject
+        case 0:
+            [self reject];
+            break;
+        // Accept
+        case 1:
+            [self accept];
+            break;
+            
+        default:
+            break;
+    }
+    
+    self.callAlert = nil;
 }
 
 @end
