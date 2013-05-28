@@ -238,7 +238,7 @@
         [ringingPlayer release];
         ringingPlayer = nil;
     
-    }else if([status isEqualToString:kStopVideoChatCallStatus_Manually]){
+    }else{
         myVideoView.hidden = YES;
         opponentVideoView.layer.contents = (id)[[UIImage imageNamed:@"person.png"] CGImage];
         opponentVideoView.layer.borderWidth = 1;
@@ -250,6 +250,10 @@
 
 - (void)chatCallDidStartWithUser:(NSUInteger)userID{
     [startingCallActivityIndicator stopAnimating];
+}
+
+- (void)didStartUseTURNForVideoChat{
+    NSLog(@"_____TURN_____TURN_____");
 }
 
 

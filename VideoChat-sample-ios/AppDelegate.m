@@ -24,6 +24,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [application setIdleTimerDisabled:YES];
+    
     //
     // This is test oppoents. This is 2 users' logins/passwords & ids
     //
@@ -40,6 +43,8 @@
     
     NSMutableDictionary *videoChatConfiguration = [[QBSettings videoChatConfiguration] mutableCopy];
     [videoChatConfiguration setObject:@20 forKey:kQBVideoChatCallTimeout];
+    [videoChatConfiguration setObject:AVCaptureSessionPresetMedium forKey:kQBVideoChatFrameQualityPreset];
+    [videoChatConfiguration setObject:@20 forKey:kQBVideoChatVideoFramesPerSecond];
     [QBSettings setVideoChatConfiguration:videoChatConfiguration];
 
 
