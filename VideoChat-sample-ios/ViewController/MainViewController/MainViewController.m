@@ -91,6 +91,7 @@
         [self.videoChat finishCall];
         
         myVideoView.hidden = YES;
+        opponentVideoView.layer.contents = (id)[[UIImage imageNamed:@"person.png"] CGImage];
         opponentVideoView.image = [UIImage imageNamed:@"person.png"];
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
@@ -239,7 +240,7 @@
     
     }else if([status isEqualToString:kStopVideoChatCallStatus_Manually]){
         myVideoView.hidden = YES;
-        opponentVideoView.image = [UIImage imageNamed:@"person.png"];
+        opponentVideoView.layer.contents = (id)[[UIImage imageNamed:@"person.png"] CGImage];
         opponentVideoView.layer.borderWidth = 1;
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
