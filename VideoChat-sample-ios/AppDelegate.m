@@ -27,8 +27,8 @@
     //
     // This is test oppoents. This is 2 users' logins/passwords & ids
     //
-    self.testOpponents = @[@"DevVideoChatUser11", @177567,
-                      @"DevVideoChatUser22", @177568];
+    self.testOpponents = @[@"DevVideoChatUser33", @195516,
+                      @"DevVideoChatUser44", @195517];
     
     
     //
@@ -40,6 +40,10 @@
     
     NSMutableDictionary *videoChatConfiguration = [[QBSettings videoChatConfiguration] mutableCopy];
     [videoChatConfiguration setObject:@20 forKey:kQBVideoChatCallTimeout];
+    [videoChatConfiguration setObject:AVCaptureSessionPresetMedium forKey:kQBVideoChatFrameQualityPreset];
+    [videoChatConfiguration setObject:@15 forKey:kQBVideoChatVideoFramesPerSecond];
+    [videoChatConfiguration setObject:@1 forKey:kQBVideoChatWriteQueueMaxOperationsThreshold];
+    [videoChatConfiguration setObject:@0 forKey:kQBVideoChatP2PTimeout];
     [QBSettings setVideoChatConfiguration:videoChatConfiguration];
 
 
