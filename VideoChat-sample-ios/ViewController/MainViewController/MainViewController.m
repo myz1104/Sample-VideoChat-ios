@@ -136,6 +136,10 @@
     ringingPlayer = nil;
 }
 
+- (void)hideCallAlert{
+    [self.callAlert dismissWithClickedButtonIndex:-1 animated:YES];
+    self.callAlert = nil;
+}
 
 #pragma mark -
 #pragma mark AVAudioPlayerDelegate
@@ -165,6 +169,10 @@
         [self.callAlert show];
     }
     
+    // hide call alert if opponent has canceled call
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideCallAlert) object:nil];
+    [self performSelector:@selector(hideCallAlert) withObject:nil afterDelay:3];
+    
     // play call music
     //
     if(ringingPlayer == nil){
@@ -181,10 +189,8 @@
     NSLog(@"chatCallUserDidNotAnswer %d", userID);
     
     callButton.hidden = NO;
-
     ringigngLabel.hidden = YES;
     callingActivityIndicator.hidden = YES;
-    
     callButton.tag = 101;
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"QuickBlox VideoChat" message:@"User isn't answering. Please try again." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
