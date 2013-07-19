@@ -75,7 +75,7 @@
         // Call user by ID
         //
         [self.videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
-        
+
         callButton.hidden = YES;
         ringigngLabel.hidden = NO;
         ringigngLabel.text = @"Calling...";
