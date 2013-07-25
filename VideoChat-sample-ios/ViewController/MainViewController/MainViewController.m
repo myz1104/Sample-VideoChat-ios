@@ -33,21 +33,9 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     navBar.topItem.title = appDelegate.currentUser == 1 ? @"User 1" : @"User 2";
     [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
-    
-    
-    // Setup video chat
-    //
-    self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstance];
-    self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-    self.videoChat.viewToRenderOwnVideoStream = myVideoView;
 }
 
 - (void)viewDidUnload{
-    // release video chat
-    //
-    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
-    self.videoChat = nil;
-    
     
     callButton = nil;
     ringigngLabel = nil;
@@ -71,6 +59,14 @@
     // Call
     if(callButton.tag == 101){
         callButton.tag = 102;
+        
+        // Setup video chat
+        //
+        if(self.videoChat == nil){
+            self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstance];
+            self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
+            self.videoChat.viewToRenderOwnVideoStream = myVideoView;
+        }
     
         // Call user by ID
         //
@@ -99,27 +95,52 @@
         opponentVideoView.layer.borderWidth = 1;
         
         [startingCallActivityIndicator stopAnimating];
+        
+        
+        // release video chat
+        //
+        [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+        self.videoChat = nil;
+        
     }
 }
 
 - (void)reject{
     // Reject call
     //
-    [self.videoChat rejectCall];
+    if(self.videoChat == nil){
+        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:sessionID];
+    }
+    [self.videoChat rejectCallWithOpponentID:videoChatOpponentID];
+    //
+    //
+    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+    self.videoChat = nil;
 
+    // update UI
     callButton.hidden = NO;
-    
-
     ringigngLabel.hidden = YES;
     
+    // release player
     [ringingPlayer release];
     ringingPlayer = nil;
 }
 
 - (void)accept{
+    NSLog(@"accept");
+    
+    // Setup video chat
+    //
+    if(self.videoChat == nil){
+        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:sessionID];
+        self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
+        self.videoChat.viewToRenderOwnVideoStream = myVideoView;
+    }
+    
+    
     // Accept call
     //
-    [self.videoChat acceptCall];
+    [self.videoChat acceptCallWithOpponentID:videoChatOpponentID conferenceType:videoChatConferenceType];
 
     ringigngLabel.hidden = YES;
     callButton.hidden = NO;
@@ -139,6 +160,8 @@
 - (void)hideCallAlert{
     [self.callAlert dismissWithClickedButtonIndex:-1 animated:YES];
     self.callAlert = nil;
+    
+    callButton.hidden = NO;
 }
 
 #pragma mark -
@@ -155,8 +178,15 @@
 //
 // VideoChat delegate
 
--(void) chatDidReceiveCallRequestFromUser:(NSUInteger)userID conferenceType:(enum QBVideoChatConferenceType)conferenceType{
+-(void) chatDidReceiveCallRequestFromUser:(NSUInteger)userID withSessionID:(NSString *)_sessionID conferenceType:(enum QBVideoChatConferenceType)conferenceType{
     NSLog(@"chatDidReceiveCallRequestFromUser %d", userID);
+    
+    // save  opponent data
+    videoChatOpponentID = userID;
+    videoChatConferenceType = conferenceType;
+    [sessionID release];
+    sessionID = [_sessionID retain];
+    
     
     callButton.hidden = YES;
     
@@ -171,7 +201,7 @@
     
     // hide call alert if opponent has canceled call
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideCallAlert) object:nil];
-    [self performSelector:@selector(hideCallAlert) withObject:nil afterDelay:3];
+    [self performSelector:@selector(hideCallAlert) withObject:nil afterDelay:4];
     
     // play call music
     //
@@ -233,7 +263,6 @@
     NSLog(@"chatCallDidStopByUser %d purpose %@", userID, status);
     
     if([status isEqualToString:kStopVideoChatCallStatus_OpponentDidNotAnswer]){
-        callButton.hidden = NO;
         
         self.callAlert.delegate = nil;
         [self.callAlert dismissWithClickedButtonIndex:0 animated:YES];
@@ -252,6 +281,13 @@
         [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
         callButton.tag = 101;
     }
+    
+    callButton.hidden = NO;
+    
+    // release video chat
+    //
+    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+    self.videoChat = nil;
 }
 
 - (void)chatCallDidStartWithUser:(NSUInteger)userID{
@@ -259,7 +295,7 @@
 }
 
 - (void)didStartUseTURNForVideoChat{
-    NSLog(@"_____TURN_____TURN_____");
+//    NSLog(@"_____TURN_____TURN_____");
 }
 
 

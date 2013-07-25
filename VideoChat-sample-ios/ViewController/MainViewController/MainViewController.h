@@ -23,6 +23,11 @@
     IBOutlet UINavigationBar *navBar;
     
     AVAudioPlayer *ringingPlayer;
+    
+    //
+    NSUInteger videoChatOpponentID;
+    enum QBVideoChatConferenceType videoChatConferenceType;
+    NSString *sessionID;
 }
 
 @property (retain) NSNumber *opponentID;

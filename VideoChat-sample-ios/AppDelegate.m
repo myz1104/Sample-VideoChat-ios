@@ -45,6 +45,7 @@
     [videoChatConfiguration setObject:@20 forKey:kQBVideoChatCallTimeout];
     [videoChatConfiguration setObject:AVCaptureSessionPresetLow forKey:kQBVideoChatFrameQualityPreset];
     [videoChatConfiguration setObject:@10 forKey:kQBVideoChatVideoFramesPerSecond];
+    [videoChatConfiguration setObject:@1 forKey:kQBVideoChatP2PTimeout];
     [QBSettings setVideoChatConfiguration:videoChatConfiguration];
 
 
