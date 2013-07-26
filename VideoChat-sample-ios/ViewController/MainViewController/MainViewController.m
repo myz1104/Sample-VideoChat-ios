@@ -50,13 +50,6 @@
     
     captureSession = [[AVCaptureSession alloc] init];
     
-    // Create video chat
-    videoChat = [[[QBChat instance] createAndRegisterVideoChatInstance] retain];
-    [videoChat setCustomVideoChatCaptureSession:captureSession];
-    // set views
-    videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-    
-    
     __block NSError *error = nil;
     
     // set preset
@@ -278,6 +271,9 @@
     
         // Call user by ID
         //
+		// Create video chat
+		videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:@"test"];
+		videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
         [videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
         
         callButton.hidden = YES;
@@ -322,7 +318,7 @@
 - (IBAction)accept:(id)sender{
     // Accept call
     //
-    [videoChat acceptCall];
+    [videoChat acceptCallWithOpponentID:[self.opponentID integerValue]	conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
     
     callAcceptButton.hidden = YES;
     callRejectButton.hidden = YES;
@@ -356,7 +352,7 @@
 //
 // VideoChat delegate
 
--(void) chatDidReceiveCallRequestFromUser:(NSUInteger)userID conferenceType:(enum QBVideoChatConferenceType)conferenceType{
+-(void) chatDidReceiveCallRequestFromUser:(NSUInteger)userID withSessionID:(NSString*)sessionID conferenceType:(enum QBVideoChatConferenceType)conferenceType{
     NSLog(@"chatDidReceiveCallRequestFromUser %d", userID);
     
     callButton.hidden = YES;
@@ -366,7 +362,10 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     ringigngLabel.text = [NSString stringWithFormat:@"%@ is calling. Would you like to answer?", appDelegate.currentUser == 1 ? @"User 2" : @"User 1"];
     ringigngLabel.frame = CGRectMake(0, 418, 320, 20);
-    
+	
+	// Create video chat
+	videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:sessionID];
+	videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
     // Play music
     if(ringingPlayer == nil){
         NSString *path =[[NSBundle mainBundle] pathForResource:@"ringing" ofType:@"wav"];
@@ -453,7 +452,7 @@
     }
 }
 
-- (void)chatCallDidStartWithUser:(NSUInteger)userID{
+-(void) chatCallDidStartWithUser:(NSUInteger)userID sessionID:(NSString *)sessionID{
     [startingCallActivityIndicator stopAnimating];
 }
 
