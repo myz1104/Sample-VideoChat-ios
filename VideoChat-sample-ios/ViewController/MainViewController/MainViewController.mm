@@ -45,21 +45,6 @@ static RingBuffer *ringBuffer;
 	[self setupAudioCapture];
 }
 
-- (void)viewDidUnload{
-    
-    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
-    [self.videoChat release];
-    self.videoChat = nil;
-    
-    
-    callButton = nil;
-	callingActivityIndicator = nil;
-    myVideoView = nil;
-    opponentVideoView = nil;
-    navBar = nil;
-    startingCallActivityIndicator = nil;
-}
-
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
@@ -200,12 +185,12 @@ static RingBuffer *ringBuffer;
 		// Create video chat
 		self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstance];
 		self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-		self.videoChat.viewToRenderOwnVideoStream = myVideoView;
+	
 		// setup custom capture
 		self.videoChat.isUseCustomAudioChatSession = YES;
 		self.videoChat.isUseCustomVideoChatCaptureSession = YES;
 		
-        [self.videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudio];
+        [self.videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
         
         callButton.hidden = YES;
         callingActivityIndicator.hidden = NO;
@@ -255,13 +240,13 @@ static RingBuffer *ringBuffer;
 	if(self.videoChat == nil){
         self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:self.currentSessionID];
         self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-        self.videoChat.viewToRenderOwnVideoStream = myVideoView;
+       
 		// setup custom capture
 		self.videoChat.isUseCustomAudioChatSession = YES;
 		self.videoChat.isUseCustomVideoChatCaptureSession = YES;
     }
 	
-    [self.videoChat acceptCallWithOpponentID:[self.opponentID integerValue]	conferenceType:QBVideoChatConferenceTypeAudio];
+    [self.videoChat acceptCallWithOpponentID:[self.opponentID integerValue]	conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
     
 	callButton.hidden = NO;
     [callButton setTitle:@"Hang up" forState:UIControlStateNormal];
@@ -413,12 +398,6 @@ static RingBuffer *ringBuffer;
 			}
 		}];
 	}
-}
-
-- (void)chatDidEexceedWriteQueueMaxOperationsThresholdWithCount:(int)operationsInQueue{
-    NSLog(@"operationsInQueue %d", operationsInQueue);
-    
-    [self.videoChat drainWriteQueue];
 }
 
 #pragma mark -
