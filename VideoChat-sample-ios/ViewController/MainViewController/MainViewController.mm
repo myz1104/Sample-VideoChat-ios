@@ -15,22 +15,12 @@
 
 static RingBuffer *ringBuffer;
 
-@implementation MainViewController{
-    int64_t sample_position_ ;
-    CMAudioFormatDescriptionRef audio_fmt_desc_;
-}
+@implementation MainViewController
 
 @synthesize opponentID;
 @synthesize captureSession;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+
 
 - (void)dealloc{
     [opponentID release];
@@ -51,7 +41,13 @@ static RingBuffer *ringBuffer;
     navBar.topItem.title = appDelegate.currentUser == 1 ? @"User 1" : @"User 2";
     [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
     
-    captureSession = [[AVCaptureSession alloc] init];
+    [self setupVideoCapture];
+	[self setupAudioCapture];
+}
+
+
+-(void) setupVideoCapture{
+	captureSession = [[AVCaptureSession alloc] init];
     
     __block NSError *error = nil;
     
@@ -90,7 +86,7 @@ static RingBuffer *ringBuffer;
     }
     [videoCaptureOutput release];
     
-
+	
     // set FPS
     int framesPerSecond = 20;
     AVCaptureConnection *conn = [videoCaptureOutput connectionWithMediaType:AVMediaTypeVideo];
@@ -114,47 +110,31 @@ static RingBuffer *ringBuffer;
 	[prewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),CGRectGetMidY(layerRect))];
     myVideoView.hidden = NO;
     [myVideoView.layer addSublayer:prewLayer];
-
-        
+	
+	
     /*We start the capture*/
     [self.captureSession startRunning];
-	
-	[self setupAudio];
+
 }
 
-
--(void) setupAudio{
+-(void) setupAudioCapture{
 	// setup audio
 	QBAudioSession *audioManager = [QBAudioSession audioManager];
 	[audioManager initializeInputUnit];
 	[audioManager routeToSpeaker];
 	//
-	if(ringBuffer == NULL){
-		ringBuffer = new RingBuffer(32768, 2);
-	}else{
-		ringBuffer->Clear();
-	}
+	ringBuffer = new RingBuffer(32768, 2);
 	
 	[audioManager play];
 	[audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
 		
 		[self.videoChat processVideoChatCaptureAudioData:data numFrames:numFrames numChannels:numChannels];
-		ringBuffer->AddNewInterleavedFloatData(data, numFrames, numChannels);
 	}];
 	
 }   
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput  didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    
-    //
-    // Do something with sampleBuffer
-    // ...
-    
-    // forward sample buffer to QB Chat
-    //
-    if([captureOutput isKindOfClass:AVCaptureVideoDataOutput.class]){
-        [self.videoChat processVideoChatCaptureVideoSample:sampleBuffer];
-    }
+	[self.videoChat processVideoChatCaptureVideoSample:sampleBuffer];
 }
 
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position{
@@ -220,8 +200,9 @@ static RingBuffer *ringBuffer;
 		self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstance];
 		self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
 		self.videoChat.viewToRenderOwnVideoStream = myVideoView;
-		// setup custom audiosession
+		// setup custom capture
 		self.videoChat.isUseCustomAudioChatSession = YES;
+		self.videoChat.isUseCustomVideoChatCaptureSession = YES;
 		
         [self.videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudio];
         
@@ -259,8 +240,15 @@ static RingBuffer *ringBuffer;
 - (IBAction)reject:(id)sender{
     // Reject call
     //
+    if(self.videoChat == nil){
+        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:self.currentSessionID];
+    }
     [self.videoChat rejectCallWithOpponentID:[opponentID integerValue]];
-    
+    //
+    //
+    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+    self.videoChat = nil;
+	
     callButton.hidden = NO;
     callAcceptButton.hidden = YES;
     callRejectButton.hidden = YES;
@@ -277,8 +265,9 @@ static RingBuffer *ringBuffer;
         self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:self.currentSessionID];
         self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
         self.videoChat.viewToRenderOwnVideoStream = myVideoView;
-		// setup custom audiosession
+		// setup custom capture
 		self.videoChat.isUseCustomAudioChatSession = YES;
+		self.videoChat.isUseCustomVideoChatCaptureSession = YES;
     }
 	
     [self.videoChat acceptCallWithOpponentID:[self.opponentID integerValue]	conferenceType:QBVideoChatConferenceTypeAudio];
@@ -308,32 +297,6 @@ static RingBuffer *ringBuffer;
     [ringingPlayer release];
     ringingPlayer = nil;
 }
-
-
--(void)didReceiveAudioData:(float *)data lenght:(NSUInteger)lenght channels:(int)channels{
-	
-	QBAudioSession *audioManager = [QBAudioSession audioManager];
-	__weak __block QBAudioSession *__weakAudioSession = audioManager;
-	
-	if([audioManager outputBlock] == nil){
-		[audioManager setOutputBlock:^(float *outData, UInt32 numFrames, UInt32 numChannels) {
-			
-			// read if exist unread frames
-			if(ringBuffer->NumUnreadFrames(0) > 0){
-				ringBuffer->FetchInterleavedData(outData, numFrames, numChannels);
-			}else{
-				[__weakAudioSession setOutputBlock:nil];
-			}
-			
-			// Correction (if have to much unread data)
-			if(ringBuffer->NumUnreadFrames(0) > 256 * 12) {// 0.032*12 = 384ms max delay
-				ringBuffer->Clear();
-			}
-		}];
-	}
-	
-}
-
 
 #pragma mark -
 #pragma mark QBChatDelegate 
@@ -440,6 +403,31 @@ static RingBuffer *ringBuffer;
 
 -(void) chatCallDidStartWithUser:(NSUInteger)userID sessionID:(NSString *)sessionID{
     [startingCallActivityIndicator stopAnimating];
+}
+
+-(void)didReceiveAudioData:(float *)data lenght:(NSUInteger)lenght channels:(int)channels{
+	
+	ringBuffer->AddNewInterleavedFloatData(data, lenght, channels);
+	
+	QBAudioSession *audioManager = [QBAudioSession audioManager];
+	__weak __block QBAudioSession *__weakAudioSession = audioManager;
+	
+	if([audioManager outputBlock] == nil){
+		[audioManager setOutputBlock:^(float *outData, UInt32 numFrames, UInt32 numChannels) {
+			
+			// read if exist unread frames
+			if(ringBuffer->NumUnreadFrames(0) > 0){
+				ringBuffer->FetchInterleavedData(outData, numFrames, numChannels);
+			}else{
+				[__weakAudioSession setOutputBlock:nil];
+			}
+			
+			// Correction (if have to much unread data)
+			if(ringBuffer->NumUnreadFrames(0) > 256 * 12) {// 0.032*12 = 384ms max delay
+				ringBuffer->Clear();
+			}
+		}];
+	}
 }
 
 - (void)chatDidEexceedWriteQueueMaxOperationsThresholdWithCount:(int)operationsInQueue{
