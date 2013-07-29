@@ -13,6 +13,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
+
 @interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate,
 AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>{
     
@@ -28,10 +29,11 @@ AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBuff
     
     AVAudioPlayer *ringingPlayer;
     
-    QBVideoChat *videoChat;
 }
 
-@property (retain) NSNumber *opponentID;
+@property (retain) NSString			*currentSessionID;
+@property (retain) QBVideoChat		*videoChat;
+@property (retain) NSNumber			*opponentID;
 @property (retain) AVCaptureSession *captureSession;
 
 - (IBAction)call:(id)sender;
