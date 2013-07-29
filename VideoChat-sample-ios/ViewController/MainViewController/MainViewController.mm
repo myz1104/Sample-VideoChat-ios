@@ -164,10 +164,7 @@ static RingBuffer *ringBuffer;
     
     
     callButton = nil;
-    callAcceptButton = nil;
-    callRejectButton = nil;
-    ringigngLabel = nil;
-    callingActivityIndicator = nil;
+	callingActivityIndicator = nil;
     myVideoView = nil;
     opponentVideoView = nil;
     navBar = nil;
@@ -207,9 +204,6 @@ static RingBuffer *ringBuffer;
         [self.videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudio];
         
         callButton.hidden = YES;
-        ringigngLabel.hidden = NO;
-        ringigngLabel.text = @"Calling...";
-        ringigngLabel.frame = CGRectMake(128, 375, 90, 37);
         callingActivityIndicator.hidden = NO;
 
     // Finish
@@ -231,13 +225,10 @@ static RingBuffer *ringBuffer;
 		
 		[[QBChat instance] unregisterVideoChatInstance:self.videoChat];
         self.videoChat = nil;
-		
-		
-		
     }
 }
 
-- (IBAction)reject:(id)sender{
+- (void)reject{
     // Reject call
     //
     if(self.videoChat == nil){
@@ -250,15 +241,11 @@ static RingBuffer *ringBuffer;
     self.videoChat = nil;
 	
     callButton.hidden = NO;
-    callAcceptButton.hidden = YES;
-    callRejectButton.hidden = YES;
-    ringigngLabel.hidden = YES;
-    
     [ringingPlayer release];
     ringingPlayer = nil;
 }
 
-- (IBAction)accept:(id)sender{
+- (void)accept{
     // Accept call
     //
 	if(self.videoChat == nil){
@@ -272,10 +259,7 @@ static RingBuffer *ringBuffer;
 	
     [self.videoChat acceptCallWithOpponentID:[self.opponentID integerValue]	conferenceType:QBVideoChatConferenceTypeAudio];
     
-    callAcceptButton.hidden = YES;
-    callRejectButton.hidden = YES;
-    ringigngLabel.hidden = YES;
-    callButton.hidden = NO;
+	callButton.hidden = NO;
     [callButton setTitle:@"Hang up" forState:UIControlStateNormal];
     callButton.tag = 102;
     
@@ -306,13 +290,16 @@ static RingBuffer *ringBuffer;
 -(void) chatDidReceiveCallRequestFromUser:(NSUInteger)userID withSessionID:(NSString*)sessionID conferenceType:(enum QBVideoChatConferenceType)conferenceType{
     NSLog(@"chatDidReceiveCallRequestFromUser %d", userID);
     
-    callButton.hidden = YES;
-    callAcceptButton.hidden = NO;
-    callRejectButton.hidden = NO;
-    ringigngLabel.hidden = NO;
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    ringigngLabel.text = [NSString stringWithFormat:@"%@ is calling. Would you like to answer?", appDelegate.currentUser == 1 ? @"User 2" : @"User 1"];
-    ringigngLabel.frame = CGRectMake(0, 418, 320, 20);
+	 if (self.callAlert == nil) {
+		 AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+		 NSString *message = [NSString stringWithFormat:@"%@ is calling. Would you like to answer?", appDelegate.currentUser == 1 ? @"User 2" : @"User 1"];
+		 self.callAlert = [[UIAlertView alloc] initWithTitle:@"Call" message:message delegate:self cancelButtonTitle:@"Decline" otherButtonTitles:@"Accept", nil];
+		 [self.callAlert show];
+	 }
+	
+	// hide call alert if opponent has canceled call
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideCallAlert) object:nil];
+    [self performSelector:@selector(hideCallAlert) withObject:nil afterDelay:4];
 	
 	[self.currentSessionID release];
 	self.currentSessionID = [sessionID retain];
@@ -332,9 +319,6 @@ static RingBuffer *ringBuffer;
     NSLog(@"chatCallUserDidNotAnswer %d", userID);
     
     callButton.hidden = NO;
-    callAcceptButton.hidden = YES;
-    callRejectButton.hidden = YES;
-    ringigngLabel.hidden = YES;
     callingActivityIndicator.hidden = YES;
     
     callButton.tag = 101;
@@ -348,7 +332,6 @@ static RingBuffer *ringBuffer;
      NSLog(@"chatCallDidRejectByUser %d", userID);
     
     callButton.hidden = NO;
-    ringigngLabel.hidden = YES;
     callingActivityIndicator.hidden = YES;
     
     callButton.tag = 101;
@@ -361,7 +344,6 @@ static RingBuffer *ringBuffer;
 -(void) chatCallDidAcceptByUser:(NSUInteger)userID{
     NSLog(@"chatCallDidAcceptByUser %d", userID);
     
-    ringigngLabel.hidden = YES;
     callingActivityIndicator.hidden = YES;
     
     opponentVideoView.layer.borderWidth = 0;
@@ -380,10 +362,9 @@ static RingBuffer *ringBuffer;
     NSLog(@"chatCallDidStopByUser %d purpose %@", userID, status);
     
     if([status isEqualToString:kStopVideoChatCallStatus_OpponentDidNotAnswer]){
-        callButton.hidden = NO;
-        callAcceptButton.hidden = YES;
-        callRejectButton.hidden = YES;
-        ringigngLabel.hidden = YES;
+        self.callAlert.delegate = nil;
+        [self.callAlert dismissWithClickedButtonIndex:0 animated:YES];
+        self.callAlert = nil;
         
         [ringingPlayer release];
         ringingPlayer = nil;
@@ -434,6 +415,34 @@ static RingBuffer *ringBuffer;
     NSLog(@"operationsInQueue %d", operationsInQueue);
     
     [self.videoChat drainWriteQueue];
+}
+
+#pragma mark -
+#pragma mark UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+			// Reject
+        case 0:
+            [self reject];
+            break;
+			// Accept
+        case 1:
+            [self accept];
+            break;
+            
+        default:
+            break;
+    }
+    
+    self.callAlert = nil;
+}
+
+- (void)hideCallAlert{
+    [self.callAlert dismissWithClickedButtonIndex:-1 animated:YES];
+    self.callAlert = nil;
+    
+    callButton.hidden = NO;
 }
 
 @end

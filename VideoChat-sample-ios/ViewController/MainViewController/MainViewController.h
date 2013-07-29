@@ -15,12 +15,9 @@
 
 
 @interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate,
-AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>{
+AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, UIAlertViewDelegate>{
     
     IBOutlet UIButton *callButton;
-    IBOutlet UIButton *callAcceptButton;
-    IBOutlet UIButton *callRejectButton;
-    IBOutlet UILabel *ringigngLabel;
     IBOutlet UIActivityIndicatorView *callingActivityIndicator;
     IBOutlet UIActivityIndicatorView *startingCallActivityIndicator;
     IBOutlet UIImageView *opponentVideoView;
@@ -35,9 +32,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBuff
 @property (retain) QBVideoChat		*videoChat;
 @property (retain) NSNumber			*opponentID;
 @property (retain) AVCaptureSession *captureSession;
+@property (retain) UIAlertView		*callAlert;
 
 - (IBAction)call:(id)sender;
-- (IBAction)reject:(id)sender;
-- (IBAction)accept:(id)sender;
 
 @end
