@@ -45,6 +45,38 @@ static RingBuffer *ringBuffer;
 	[self setupAudioCapture];
 }
 
+- (void)viewDidUnload{
+    
+    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+    [self.videoChat release];
+    self.videoChat = nil;
+    
+    
+    callButton = nil;
+	callingActivityIndicator = nil;
+    myVideoView = nil;
+    opponentVideoView = nil;
+    navBar = nil;
+    startingCallActivityIndicator = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    // Start sending chat presence
+    //
+    [QBChat instance].delegate = self;
+    [NSTimer scheduledTimerWithTimeInterval:30 target:[QBChat instance] selector:@selector(sendPresence) userInfo:nil repeats:YES];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark -
+#pragma mark Video and audio setup
 
 -(void) setupVideoCapture{
 	captureSession = [[AVCaptureSession alloc] init];
@@ -155,36 +187,8 @@ static RingBuffer *ringBuffer;
     return [self cameraWithPosition:AVCaptureDevicePositionFront];
 }
 
-
-- (void)viewDidUnload{
-    
-    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
-    [self.videoChat release];
-    self.videoChat = nil;
-    
-    
-    callButton = nil;
-	callingActivityIndicator = nil;
-    myVideoView = nil;
-    opponentVideoView = nil;
-    navBar = nil;
-    startingCallActivityIndicator = nil;
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    
-    // Start sending chat presence
-    //
-    [QBChat instance].delegate = self;
-    [NSTimer scheduledTimerWithTimeInterval:30 target:[QBChat instance] selector:@selector(sendPresence) userInfo:nil repeats:YES];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark
+#pragma mark Logic
 
 - (IBAction)call:(id)sender{
     // Call
