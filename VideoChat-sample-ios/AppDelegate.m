@@ -44,7 +44,7 @@
     [videoChatConfiguration setObject:@15 forKey:kQBVideoChatVideoFramesPerSecond];
     [videoChatConfiguration setObject:@5 forKey:kQBVideoChatWriteQueueMaxVideoOperationsThreshold];
     [videoChatConfiguration setObject:@10 forKey:kQBVideoChatWriteQueueMaxAudioOperationsThreshold];
-    [videoChatConfiguration setObject:@0 forKey:kQBVideoChatP2PTimeout];
+    [videoChatConfiguration setObject:@5 forKey:kQBVideoChatP2PTimeout];
     [QBSettings setVideoChatConfiguration:videoChatConfiguration];
 
 

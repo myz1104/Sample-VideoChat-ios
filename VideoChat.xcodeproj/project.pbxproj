@@ -18,7 +18,7 @@
 		43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDD160893D500DDBF12 /* UIKit.framework */; };
 		43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDF160893D500DDBF12 /* Foundation.framework */; };
 		43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BE1160893D500DDBF12 /* CoreGraphics.framework */; };
-		6322194C17A7C36E00DB9483 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6322194B17A7C36E00DB9483 /* Quickblox.framework */; };
+		6322195A17A7D93600DB9483 /* libQuickblox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6322195717A7D92900DB9483 /* libQuickblox.a */; };
 		63B317FF17A66B59001FDE34 /* RingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 63B317FE17A66B59001FDE34 /* RingBuffer.mm */; };
 		63B3180A17A67133001FDE34 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 63B3180917A67133001FDE34 /* MainViewController.mm */; };
 		FA078F7C16C94833003E8E5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6216C94833003E8E5A /* AppDelegate.m */; };
@@ -44,6 +44,23 @@
 		FAFF373916C2BF4100676978 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFF373816C2BF4100676978 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6322195617A7D92900DB9483 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6322194F17A7D92800DB9483 /* Quickblox.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA066A6F147A712E00645716;
+			remoteInfo = BaseServiceStaticLibrary_Dev;
+		};
+		6322195817A7D92900DB9483 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6322194F17A7D92800DB9483 /* Quickblox.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA1F545814DED9B1006F40DB;
+			remoteInfo = BaseServiceStaticLibrary_Sim;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		434E9CC81608A01F00A4FB2D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		434E9CCA1608A02E00A4FB2D /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
@@ -57,7 +74,7 @@
 		43774BDD160893D500DDBF12 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		43774BDF160893D500DDBF12 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		43774BE1160893D500DDBF12 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		6322194B17A7C36E00DB9483 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
+		6322194F17A7D92800DB9483 /* Quickblox.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quickblox.xcodeproj; path = "../SDK-ios/Framework/Quickblox.xcodeproj"; sourceTree = "<group>"; };
 		63B317FD17A66B59001FDE34 /* RingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
 		63B317FE17A66B59001FDE34 /* RingBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RingBuffer.mm; sourceTree = "<group>"; };
 		63B3180917A67133001FDE34 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
@@ -93,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6322195A17A7D93600DB9483 /* libQuickblox.a in Frameworks */,
 				FAFF373716C2BF0500676978 /* Accelerate.framework in Frameworks */,
 				FAFF373916C2BF4100676978 /* AudioToolbox.framework in Frameworks */,
 				FACAA92716AD7B4A00A81F91 /* CoreMedia.framework in Frameworks */,
@@ -110,7 +128,6 @@
 				43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */,
 				43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */,
 				43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */,
-				6322194C17A7C36E00DB9483 /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +137,7 @@
 		43774BCE160893D500DDBF12 = {
 			isa = PBXGroup;
 			children = (
+				6322194F17A7D92800DB9483 /* Quickblox.xcodeproj */,
 				FA078F6016C94833003E8E5A /* VideoChat-sample-ios */,
 				FA078F9F16C948D7003E8E5A /* Other Sources */,
 				FA078F8C16C94869003E8E5A /* Resources */,
@@ -139,7 +157,6 @@
 		43774BDC160893D500DDBF12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6322194B17A7C36E00DB9483 /* Quickblox.framework */,
 				FAFF373816C2BF4100676978 /* AudioToolbox.framework */,
 				FAFF373616C2BF0500676978 /* Accelerate.framework */,
 				FACAA92616AD7B4A00A81F91 /* CoreMedia.framework */,
@@ -159,6 +176,15 @@
 				43774BE1160893D500DDBF12 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6322195017A7D92800DB9483 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6322195717A7D92900DB9483 /* libQuickblox.a */,
+				6322195917A7D92900DB9483 /* libQuickblox.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		63B317FC17A66B59001FDE34 /* RingBuffer */ = {
@@ -293,12 +319,35 @@
 			mainGroup = 43774BCE160893D500DDBF12;
 			productRefGroup = 43774BDA160893D500DDBF12 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6322195017A7D92800DB9483 /* Products */;
+					ProjectRef = 6322194F17A7D92800DB9483 /* Quickblox.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				43774BD8160893D500DDBF12 /* VideoChat */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6322195717A7D92900DB9483 /* libQuickblox.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuickblox.a;
+			remoteRef = 6322195617A7D92900DB9483 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6322195917A7D92900DB9483 /* libQuickblox.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuickblox.a;
+			remoteRef = 6322195817A7D92900DB9483 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		43774BD7160893D500DDBF12 /* Resources */ = {
