@@ -120,8 +120,7 @@
     // Show Main controller
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MainViewController *mainViewController = [[MainViewController alloc] init];
-    mainViewController.opponentID = appDelegate.currentUser == 1 ? appDelegate.testOpponents[3] : appDelegate.testOpponents[1];
-    NSLog(@"mainViewController.opponentID %@", mainViewController.opponentID);
+    mainViewController.userIDToCall = appDelegate.currentUser == 1 ? appDelegate.testOpponents[3] : appDelegate.testOpponents[1];
     [self presentModalViewController:mainViewController animated:YES];
     [mainViewController release];
 }

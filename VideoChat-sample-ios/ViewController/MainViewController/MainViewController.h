@@ -25,12 +25,11 @@ AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBuff
     IBOutlet UINavigationBar *navBar;
     
     AVAudioPlayer *ringingPlayer;
-    
 }
-
-@property (retain) NSString			*currentSessionID;
 @property (retain) QBVideoChat		*videoChat;
-@property (retain) NSNumber			*opponentID;
+@property (retain) NSString			*currentSessionID;
+@property (retain) NSNumber			*userIDToCall;
+@property (assign) int opponentID;
 @property (retain) AVCaptureSession *captureSession;
 @property (retain) UIAlertView		*callAlert;
 

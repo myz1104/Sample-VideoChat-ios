@@ -17,13 +17,12 @@ static RingBuffer *ringBuffer;
 
 @implementation MainViewController
 
+@synthesize userIDToCall;
 @synthesize opponentID;
 @synthesize captureSession;
 
-
-
 - (void)dealloc{
-    [opponentID release];
+    [userIDToCall release];
     [captureSession release];
     
     [super dealloc];
@@ -190,7 +189,7 @@ static RingBuffer *ringBuffer;
 		self.videoChat.isUseCustomAudioChatSession = YES;
 		self.videoChat.isUseCustomVideoChatCaptureSession = YES;
 		
-        [self.videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
+        [self.videoChat callUser:[userIDToCall integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
         
         callButton.hidden = YES;
         callingActivityIndicator.hidden = NO;
@@ -220,14 +219,11 @@ static RingBuffer *ringBuffer;
 - (void)reject{
     // Reject call
     //
-    if(self.videoChat == nil){
-        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:self.currentSessionID];
-    }
-    [self.videoChat rejectCallWithOpponentID:[opponentID integerValue]];
+    QBVideoChat *videoChatToReject = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:self.currentSessionID];
+    [videoChatToReject rejectCallWithOpponentID:opponentID];
     //
-    //
-    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
-    self.videoChat = nil;
+    [[QBChat instance] unregisterVideoChatInstance:videoChatToReject];
+    
 	
     callButton.hidden = NO;
     [ringingPlayer release];
@@ -246,7 +242,7 @@ static RingBuffer *ringBuffer;
 		self.videoChat.isUseCustomVideoChatCaptureSession = YES;
     }
 	
-    [self.videoChat acceptCallWithOpponentID:[self.opponentID integerValue]	conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
+    [self.videoChat acceptCallWithOpponentID:opponentID	conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
     
 	callButton.hidden = NO;
     [callButton setTitle:@"Hang up" forState:UIControlStateNormal];
@@ -290,9 +286,14 @@ static RingBuffer *ringBuffer;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideCallAlert) object:nil];
     [self performSelector:@selector(hideCallAlert) withObject:nil afterDelay:4];
 	
+    
+    // save video chat session & opponentID
 	[self.currentSessionID release];
 	self.currentSessionID = [sessionID retain];
-	
+    //
+    opponentID = userID;
+    
+    
     // Play music
     if(ringingPlayer == nil){
         NSString *path =[[NSBundle mainBundle] pathForResource:@"ringing" ofType:@"wav"];
@@ -405,15 +406,15 @@ static RingBuffer *ringBuffer;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
-			// Reject
+        // Reject
         case 0:
             [self reject];
             break;
-			// Accept
+        
+        // Accept
         case 1:
             [self accept];
             break;
-            
         default:
             break;
     }
