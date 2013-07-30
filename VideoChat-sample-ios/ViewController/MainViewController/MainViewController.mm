@@ -233,15 +233,21 @@ static RingBuffer *ringBuffer;
 - (void)accept{
     // Accept call
     //
-	if(self.videoChat == nil){
-        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:self.currentSessionID];
-        self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-       
-		// setup custom capture
-		self.videoChat.isUseCustomAudioChatSession = YES;
-		self.videoChat.isUseCustomVideoChatCaptureSession = YES;
-    }
 	
+	// clean old video chat if it exist
+	if (self.videoChat){
+		[self.videoChat finishCall];
+		[[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+		self.videoChat = nil;
+	}
+	
+	self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:self.currentSessionID];
+	self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
+	
+	// setup custom capture
+	self.videoChat.isUseCustomAudioChatSession = YES;
+	self.videoChat.isUseCustomVideoChatCaptureSession = YES;
+    
     [self.videoChat acceptCallWithOpponentID:opponentID	conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
     
 	callButton.hidden = NO;
