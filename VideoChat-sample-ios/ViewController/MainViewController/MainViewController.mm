@@ -384,8 +384,10 @@ static RingBuffer *ringBuffer;
 
 -(void)didReceiveAudioData:(float *)data lenght:(NSUInteger)lenght channels:(int)channels{
 	
+	// send data to current output mic (uses only when you receiving opponents audio data)
 	ringBuffer->AddNewInterleavedFloatData(data, lenght, channels);
 	
+	// fetch new audio data from input
 	QBAudioSession *audioManager = [QBAudioSession audioManager];
 	__weak __block QBAudioSession *__weakAudioSession = audioManager;
 	
