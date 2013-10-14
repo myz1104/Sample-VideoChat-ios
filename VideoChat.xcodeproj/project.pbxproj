@@ -19,8 +19,8 @@
 		43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDF160893D500DDBF12 /* Foundation.framework */; };
 		43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BE1160893D500DDBF12 /* CoreGraphics.framework */; };
 		63B317FF17A66B59001FDE34 /* RingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 63B317FE17A66B59001FDE34 /* RingBuffer.mm */; };
-		63B3180517A66D4A001FDE34 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B3180417A66D4A001FDE34 /* Quickblox.framework */; };
 		63B3180A17A67133001FDE34 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 63B3180917A67133001FDE34 /* MainViewController.mm */; };
+		BF8CFCD317B39C08009263C0 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8CFCD217B39C08009263C0 /* Quickblox.framework */; };
 		FA078F7C16C94833003E8E5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6216C94833003E8E5A /* AppDelegate.m */; };
 		FA078F7D16C94833003E8E5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA078F6316C94833003E8E5A /* InfoPlist.strings */; };
 		FA078F7E16C94833003E8E5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6516C94833003E8E5A /* main.m */; };
@@ -59,8 +59,8 @@
 		43774BE1160893D500DDBF12 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		63B317FD17A66B59001FDE34 /* RingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
 		63B317FE17A66B59001FDE34 /* RingBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RingBuffer.mm; sourceTree = "<group>"; };
-		63B3180417A66D4A001FDE34 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		63B3180917A67133001FDE34 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
+		BF8CFCD217B39C08009263C0 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quickblox.framework; path = "../SDK-ios/Framework/build/Framework/Quickblox.framework"; sourceTree = "<group>"; };
 		FA078F6116C94833003E8E5A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA078F6216C94833003E8E5A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FA078F6416C94833003E8E5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -110,7 +110,7 @@
 				43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */,
 				43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */,
 				43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */,
-				63B3180517A66D4A001FDE34 /* Quickblox.framework in Frameworks */,
+				BF8CFCD317B39C08009263C0 /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +139,7 @@
 		43774BDC160893D500DDBF12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				63B3180417A66D4A001FDE34 /* Quickblox.framework */,
+				BF8CFCD217B39C08009263C0 /* Quickblox.framework */,
 				FAFF373816C2BF4100676978 /* AudioToolbox.framework */,
 				FAFF373616C2BF0500676978 /* Accelerate.framework */,
 				FACAA92616AD7B4A00A81F91 /* CoreMedia.framework */,
@@ -440,7 +440,7 @@
 				);
 				PRODUCT_NAME = VideoChat;
 				PROVISIONING_PROFILE = "BC049187-1303-488A-BCA5-F2B7F2FA0F34";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BC049187-1303-488A-BCA5-F2B7F2FA0F34";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4004F0C4-0FE4-4A79-96E8-94DC84396883";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};

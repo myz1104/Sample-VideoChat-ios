@@ -68,7 +68,7 @@ static RingBuffer *ringBuffer;
     __block NSError *error = nil;
     
     // set preset
-    [self.captureSession setSessionPreset:AVCaptureSessionPresetHigh];
+    [self.captureSession setSessionPreset:AVCaptureSessionPresetLow];
     
     
     // Setup the Video input
@@ -104,7 +104,7 @@ static RingBuffer *ringBuffer;
     
 	
     // set FPS
-    int framesPerSecond = 20;
+    int framesPerSecond = 25;
     AVCaptureConnection *conn = [videoCaptureOutput connectionWithMediaType:AVMediaTypeVideo];
     if (conn.isVideoMinFrameDurationSupported){
         conn.videoMinFrameDuration = CMTimeMake(1, framesPerSecond);
@@ -150,7 +150,7 @@ static RingBuffer *ringBuffer;
 }   
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput  didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-	[self.videoChat processVideoChatCaptureVideoSample:sampleBuffer];
+    [self.videoChat processVideoChatCaptureVideoSample:sampleBuffer];
 }
 
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position{
@@ -393,10 +393,10 @@ static RingBuffer *ringBuffer;
 				[__weakAudioSession setOutputBlock:nil];
 			}
 			
-			// Correction (if have to much unread data)
-			if(ringBuffer->NumUnreadFrames(0) > 256 * 12) {// 0.032*12 = 384ms max delay
-				ringBuffer->Clear();
-			}
+//			// Correction (if have to much unread data)
+//			if(ringBuffer->NumUnreadFrames(0) > 256 * 12) {// 0.032*12 = 384ms max delay
+//				ringBuffer->Clear();
+//			}
 		}];
 	}
 }

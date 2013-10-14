@@ -27,24 +27,31 @@
     //
     // This is test oppoents. This is 2 users' logins/passwords & ids
     //
-    self.testOpponents = @[@"DevVideoChatUser33", @195516,
-                      @"DevVideoChatUser44", @195517];
-    
-    
+//    self.testOpponents = @[@"DevVideoChatUser33", @195516,
+//                      @"DevVideoChatUser44", @195517];
     //
     // Set QuickBlox credentials. Register at admin.quickblox.com, create a new app
     // and copy credentials here to have your own backend instance enabled.
-    [QBSettings setApplicationID:92];
-    [QBSettings setAuthorizationKey:@"wJHdOcQSxXQGWx5"];
-    [QBSettings setAuthorizationSecret:@"BTFsj7Rtt27DAmT"];
+//    [QBSettings setApplicationID:92];
+//    [QBSettings setAuthorizationKey:@"wJHdOcQSxXQGWx5"];
+//    [QBSettings setAuthorizationSecret:@"BTFsj7Rtt27DAmT"];
+    
+    
+    // Android credentials
+    [QBSettings setApplicationID:2944];
+    [QBSettings setAuthorizationKey:@"RfghS97xYA29Mha"];
+    [QBSettings setAuthorizationSecret:@"L2EXV6ut-vD8Zus"];
+    self.testOpponents = @[@"videoChatUser1", @217738,
+                           @"videoChatUser2", @217740];
+
     
     NSMutableDictionary *videoChatConfiguration = [[QBSettings videoChatConfiguration] mutableCopy];
     [videoChatConfiguration setObject:@20 forKey:kQBVideoChatCallTimeout];
-    [videoChatConfiguration setObject:AVCaptureSessionPresetMedium forKey:kQBVideoChatFrameQualityPreset];
-    [videoChatConfiguration setObject:@15 forKey:kQBVideoChatVideoFramesPerSecond];
-    [videoChatConfiguration setObject:@5 forKey:kQBVideoChatWriteQueueMaxVideoOperationsThreshold];
-    [videoChatConfiguration setObject:@10 forKey:kQBVideoChatWriteQueueMaxAudioOperationsThreshold];
-    [videoChatConfiguration setObject:@0 forKey:kQBVideoChatP2PTimeout];
+    [videoChatConfiguration setObject:AVCaptureSessionPresetLow forKey:kQBVideoChatFrameQualityPreset];
+    [videoChatConfiguration setObject:@5 forKey:kQBVideoChatVideoFramesPerSecond];
+//    [videoChatConfiguration setObject:@5 forKey:kQBVideoChatWriteQueueMaxVideoOperationsThreshold];
+//    [videoChatConfiguration setObject:@10 forKey:kQBVideoChatWriteQueueMaxAudioOperationsThreshold];
+    [videoChatConfiguration setObject:@5 forKey:kQBVideoChatP2PTimeout];
     [QBSettings setVideoChatConfiguration:videoChatConfiguration];
 
 
