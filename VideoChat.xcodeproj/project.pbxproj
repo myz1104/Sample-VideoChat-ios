@@ -18,7 +18,8 @@
 		43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDD160893D500DDBF12 /* UIKit.framework */; };
 		43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDF160893D500DDBF12 /* Foundation.framework */; };
 		43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BE1160893D500DDBF12 /* CoreGraphics.framework */; };
-		BFA2E21F179D725500502CB0 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA2E21E179D725500502CB0 /* Quickblox.framework */; };
+		BF67F8581843F6410066F4C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF67F8571843F6410066F4C9 /* Security.framework */; };
+		BFA76963184531F6005301EB /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA76962184531F6005301EB /* Quickblox.framework */; };
 		FA078F7C16C94833003E8E5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6216C94833003E8E5A /* AppDelegate.m */; };
 		FA078F7D16C94833003E8E5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA078F6316C94833003E8E5A /* InfoPlist.strings */; };
 		FA078F7E16C94833003E8E5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6516C94833003E8E5A /* main.m */; };
@@ -56,7 +57,8 @@
 		43774BDD160893D500DDBF12 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		43774BDF160893D500DDBF12 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		43774BE1160893D500DDBF12 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		BFA2E21E179D725500502CB0 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quickblox.framework; path = "../SDK-ios/Framework/build/Framework/Quickblox.framework"; sourceTree = "<group>"; };
+		BF67F8571843F6410066F4C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		BFA76962184531F6005301EB /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		FA078F6116C94833003E8E5A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA078F6216C94833003E8E5A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FA078F6416C94833003E8E5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF67F8581843F6410066F4C9 /* Security.framework in Frameworks */,
 				FAFF373916C2BF4100676978 /* AudioToolbox.framework in Frameworks */,
 				FAFF373716C2BF0500676978 /* Accelerate.framework in Frameworks */,
 				FACAA92716AD7B4A00A81F91 /* CoreMedia.framework in Frameworks */,
@@ -107,7 +110,7 @@
 				43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */,
 				43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */,
 				43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */,
-				BFA2E21F179D725500502CB0 /* Quickblox.framework in Frameworks */,
+				BFA76963184531F6005301EB /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +139,8 @@
 		43774BDC160893D500DDBF12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BFA2E21E179D725500502CB0 /* Quickblox.framework */,
+				BFA76962184531F6005301EB /* Quickblox.framework */,
+				BF67F8571843F6410066F4C9 /* Security.framework */,
 				FAFF373816C2BF4100676978 /* AudioToolbox.framework */,
 				FAFF373616C2BF0500676978 /* Accelerate.framework */,
 				FACAA92616AD7B4A00A81F91 /* CoreMedia.framework */,
@@ -269,6 +273,11 @@
 			attributes = {
 				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = Ruslan;
+				TargetAttributes = {
+					43774BD8160893D500DDBF12 = {
+						DevelopmentTeam = 8885H5G2YX;
+					};
+				};
 			};
 			buildConfigurationList = 43774BD3160893D500DDBF12 /* Build configuration list for PBXProject "VideoChat" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -401,17 +410,17 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Taras Filatov (6AVH4TA956)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Taras Filatov (6AVH4TA956)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Khomenko Igor (67859YS754)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../SDK-ios/Framework/build/Framework\"",
+					"/Users/igorkhomenko/workspace/Sample-VideoChat-ios",
+					"/Users/igorkhomenko/workspace/SDK-ios/Framework/build/Framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoChat-sample-ios/videoChat-Prefix.pch";
 				INFOPLIST_FILE = "VideoChat-sample-ios/videoChat-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-ObjC",
@@ -423,8 +432,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = VideoChat;
-				PROVISIONING_PROFILE = "1576CACB-6248-4BD8-B223-5B9427767808";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1576CACB-6248-4BD8-B223-5B9427767808";
+				PROVISIONING_PROFILE = "800A6590-3F7C-43E1-85E7-EA207E320634";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -435,24 +443,24 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Injoit LTD";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Injoit LTD";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../SDK-ios/Framework/build/Framework\"",
+					"/Users/igorkhomenko/workspace/Sample-VideoChat-ios",
+					"/Users/igorkhomenko/workspace/SDK-ios/Framework/build/Framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoChat-sample-ios/videoChat-Prefix.pch";
 				INFOPLIST_FILE = "VideoChat-sample-ios/videoChat-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-ObjC",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = VideoChat;
-				PROVISIONING_PROFILE = "6CD57DC1-6F15-4610-A610-90E56209EAF7";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6CD57DC1-6F15-4610-A610-90E56209EAF7";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;

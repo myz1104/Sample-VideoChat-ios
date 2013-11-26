@@ -21,6 +21,8 @@
     IBOutlet UIImageView *opponentVideoView;
     IBOutlet UIImageView *myVideoView;
     IBOutlet UINavigationBar *navBar;
+    IBOutlet UISegmentedControl *audioOutput;
+    IBOutlet UISegmentedControl *videoOutput;
     
     AVAudioPlayer *ringingPlayer;
     

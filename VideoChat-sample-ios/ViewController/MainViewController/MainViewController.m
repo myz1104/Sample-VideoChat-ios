@@ -33,6 +33,12 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     navBar.topItem.title = appDelegate.currentUser == 1 ? @"User 1" : @"User 2";
     [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
+    
+    if(!QB_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        audioOutput.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
+        audioOutput.frame = CGRectMake(audioOutput.frame.origin.x-15, audioOutput.frame.origin.y, audioOutput.frame.size.width+50, audioOutput.frame.size.height);
+        videoOutput.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
+    }
 }
 
 - (void)viewDidUnload{
@@ -55,6 +61,18 @@
     [NSTimer scheduledTimerWithTimeInterval:30 target:[QBChat instance] selector:@selector(sendPresence) userInfo:nil repeats:YES];
 }
 
+- (IBAction)audioOutputDidChange:(UISegmentedControl *)sender{
+    if(self.videoChat != nil){
+        self.videoChat.useHeadphone = sender.selectedSegmentIndex;
+    }
+}
+
+- (IBAction)videoOutputDidChange:(UISegmentedControl *)sender{
+    if(self.videoChat != nil){
+        self.videoChat.useBackCamera = sender.selectedSegmentIndex;
+    }
+}
+
 - (IBAction)call:(id)sender{
     // Call
     if(callButton.tag == 101){
@@ -67,6 +85,11 @@
             self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
             self.videoChat.viewToRenderOwnVideoStream = myVideoView;
         }
+        
+        // Set Audio & Video output
+        //
+        self.videoChat.useHeadphone = audioOutput.selectedSegmentIndex;
+        self.videoChat.useBackCamera = videoOutput.selectedSegmentIndex;
     
         // Call user by ID
         //
@@ -101,7 +124,6 @@
         //
         [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
         self.videoChat = nil;
-        
     }
 }
 
@@ -137,6 +159,10 @@
         self.videoChat.viewToRenderOwnVideoStream = myVideoView;
     }
     
+    // Set Audio & Video output
+    //
+    self.videoChat.useHeadphone = audioOutput.selectedSegmentIndex;
+    self.videoChat.useBackCamera = videoOutput.selectedSegmentIndex;
     
     // Accept call
     //
@@ -290,7 +316,7 @@
     self.videoChat = nil;
 }
 
-- (void)chatCallDidStartWithUser:(NSUInteger)userID{
+- (void)chatCallDidStartWithUser:(NSUInteger)userID sessionID:(NSString *)sessionID{
     [startingCallActivityIndicator stopAnimating];
 }
 
