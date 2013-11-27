@@ -116,7 +116,7 @@ static QBRingBuffer *ringBuffer;
     
 	
     // set FPS
-    int framesPerSecond = 20;
+    int framesPerSecond = 3;
     AVCaptureConnection *conn = [videoCaptureOutput connectionWithMediaType:AVMediaTypeVideo];
     if (conn.isVideoMinFrameDurationSupported){
         conn.videoMinFrameDuration = CMTimeMake(1, framesPerSecond);
