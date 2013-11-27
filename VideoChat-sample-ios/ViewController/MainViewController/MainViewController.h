@@ -13,7 +13,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate, UIAlertViewDelegate>{
+@interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate, UIAlertViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>{
     IBOutlet UIButton *callButton;
     IBOutlet UILabel *ringigngLabel;
     IBOutlet UIActivityIndicatorView *callingActivityIndicator;
@@ -30,11 +30,13 @@
     NSUInteger videoChatOpponentID;
     enum QBVideoChatConferenceType videoChatConferenceType;
     NSString *sessionID;
+    
 }
 
 @property (retain) NSNumber *opponentID;
 @property (retain) QBVideoChat *videoChat;
 @property (retain) UIAlertView *callAlert;
+@property (retain) AVCaptureSession *captureSession;
 
 - (IBAction)call:(id)sender;
 - (void)reject;

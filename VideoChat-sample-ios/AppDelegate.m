@@ -32,12 +32,14 @@
     //
     self.testOpponents = @[@"videoChatUser1", @65421,
                       @"videoChatUser2", @65422];
+    
     //
     // Set QuickBlox credentials. Register at admin.quickblox.com, create a new app
     // and copy credentials here to have your own backend instance enabled.
     [QBSettings setApplicationID:92];
     [QBSettings setAuthorizationKey:@"wJHdOcQSxXQGWx5"];
     [QBSettings setAuthorizationSecret:@"BTFsj7Rtt27DAmT"];
+    
     
     NSMutableDictionary *videoChatConfiguration = [[QBSettings videoChatConfiguration] mutableCopy];
     [videoChatConfiguration setObject:@20 forKey:kQBVideoChatCallTimeout];

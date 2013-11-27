@@ -19,12 +19,13 @@
 		43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDF160893D500DDBF12 /* Foundation.framework */; };
 		43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BE1160893D500DDBF12 /* CoreGraphics.framework */; };
 		BF67F8581843F6410066F4C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF67F8571843F6410066F4C9 /* Security.framework */; };
-		BFA76963184531F6005301EB /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA76962184531F6005301EB /* Quickblox.framework */; };
+		BFA7696C18460F52005301EB /* QBRingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFA7696B18460F52005301EB /* QBRingBuffer.mm */; };
+		BFA7696E18461463005301EB /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA7696D18461463005301EB /* Quickblox.framework */; };
 		FA078F7C16C94833003E8E5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6216C94833003E8E5A /* AppDelegate.m */; };
 		FA078F7D16C94833003E8E5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA078F6316C94833003E8E5A /* InfoPlist.strings */; };
 		FA078F7E16C94833003E8E5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6516C94833003E8E5A /* main.m */; };
 		FA078F8716C94833003E8E5A /* videoChat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA078F7116C94833003E8E5A /* videoChat-Info.plist */; };
-		FA078F8816C94833003E8E5A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F7616C94833003E8E5A /* MainViewController.m */; };
+		FA078F8816C94833003E8E5A /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA078F7616C94833003E8E5A /* MainViewController.mm */; };
 		FA078F8916C94833003E8E5A /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA078F7716C94833003E8E5A /* MainViewController.xib */; };
 		FA078F8A16C94833003E8E5A /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F7A16C94833003E8E5A /* SplashViewController.m */; };
 		FA078F8B16C94833003E8E5A /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA078F7B16C94833003E8E5A /* SplashViewController.xib */; };
@@ -58,7 +59,9 @@
 		43774BDF160893D500DDBF12 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		43774BE1160893D500DDBF12 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BF67F8571843F6410066F4C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		BFA76962184531F6005301EB /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
+		BFA7696A18460F52005301EB /* QBRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBRingBuffer.h; sourceTree = "<group>"; };
+		BFA7696B18460F52005301EB /* QBRingBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBRingBuffer.mm; sourceTree = "<group>"; };
+		BFA7696D18461463005301EB /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		FA078F6116C94833003E8E5A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA078F6216C94833003E8E5A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FA078F6416C94833003E8E5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -66,7 +69,7 @@
 		FA078F7116C94833003E8E5A /* videoChat-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "videoChat-Info.plist"; sourceTree = "<group>"; };
 		FA078F7216C94833003E8E5A /* videoChat-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "videoChat-Prefix.pch"; sourceTree = "<group>"; };
 		FA078F7516C94833003E8E5A /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		FA078F7616C94833003E8E5A /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		FA078F7616C94833003E8E5A /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		FA078F7716C94833003E8E5A /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		FA078F7916C94833003E8E5A /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		FA078F7A16C94833003E8E5A /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
@@ -110,7 +113,7 @@
 				43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */,
 				43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */,
 				43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */,
-				BFA76963184531F6005301EB /* Quickblox.framework in Frameworks */,
+				BFA7696E18461463005301EB /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +142,7 @@
 		43774BDC160893D500DDBF12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BFA76962184531F6005301EB /* Quickblox.framework */,
+				BFA7696D18461463005301EB /* Quickblox.framework */,
 				BF67F8571843F6410066F4C9 /* Security.framework */,
 				FAFF373816C2BF4100676978 /* AudioToolbox.framework */,
 				FAFF373616C2BF0500676978 /* Accelerate.framework */,
@@ -162,11 +165,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BFA7696418460135005301EB /* RingBuffer */ = {
+			isa = PBXGroup;
+			children = (
+				BFA7696A18460F52005301EB /* QBRingBuffer.h */,
+				BFA7696B18460F52005301EB /* QBRingBuffer.mm */,
+			);
+			path = RingBuffer;
+			sourceTree = "<group>";
+		};
 		FA078F6016C94833003E8E5A /* VideoChat-sample-ios */ = {
 			isa = PBXGroup;
 			children = (
 				FA078F6116C94833003E8E5A /* AppDelegate.h */,
 				FA078F6216C94833003E8E5A /* AppDelegate.m */,
+				BFA7696418460135005301EB /* RingBuffer */,
 				FA078F7316C94833003E8E5A /* ViewController */,
 			);
 			path = "VideoChat-sample-ios";
@@ -185,7 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				FA078F7516C94833003E8E5A /* MainViewController.h */,
-				FA078F7616C94833003E8E5A /* MainViewController.m */,
+				FA078F7616C94833003E8E5A /* MainViewController.mm */,
 				FA078F7716C94833003E8E5A /* MainViewController.xib */,
 			);
 			path = MainViewController;
@@ -325,7 +338,8 @@
 			files = (
 				FA078F7C16C94833003E8E5A /* AppDelegate.m in Sources */,
 				FA078F7E16C94833003E8E5A /* main.m in Sources */,
-				FA078F8816C94833003E8E5A /* MainViewController.m in Sources */,
+				FA078F8816C94833003E8E5A /* MainViewController.mm in Sources */,
+				BFA7696C18460F52005301EB /* QBRingBuffer.mm in Sources */,
 				FA078F8A16C94833003E8E5A /* SplashViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
