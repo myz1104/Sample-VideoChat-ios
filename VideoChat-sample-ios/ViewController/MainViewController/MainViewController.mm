@@ -9,18 +9,25 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 
-#import "QBRingBuffer.h"
+#import "TPCircularBuffer.h"
 
-static QBRingBuffer *ringBuffer;
+#define kBufferLength 32768
+#define qbAudioDataSizeForSecods(second) 512*(32*second)
 
 @interface MainViewController ()
 @end
-@implementation MainViewController
+
+@implementation MainViewController{
+    TPCircularBuffer circularBuffer;
+}
 
 @synthesize opponentID;
 
 - (void)dealloc{
     [opponentID release];
+    
+    // Release buffer resources
+    TPCircularBufferCleanup(&circularBuffer);
     
     [super dealloc];
 }
@@ -145,24 +152,25 @@ static QBRingBuffer *ringBuffer;
 }
 
 -(void) setupAudioCapture{
-	// setup audio service
-	//
-    QBAudioIOService *audioManager = [QBAudioIOService audioManager];
-	[audioManager initializeInputUnit];
+    // start audio IO
+    //
+    [[QBAudioIOService shared] start];
     
-    // Route to speaker by default
-	[audioManager routeToSpeaker];
-    
-    // create buffer for audio data
-	ringBuffer = new QBRingBuffer(32768, 2);
+    // Route audio to speaker
+    //
+    [[QBAudioIOService shared] routeToSpeaker];
 	
+    // Create ring buffer
+    //
+    TPCircularBufferInit(&circularBuffer, kBufferLength);
+    
     // Start processing
     //
-	[audioManager play];
-	[audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
-		[self.videoChat processVideoChatCaptureAudioData:data numFrames:numFrames numChannels:numChannels];
-	}];
-	
+	[[QBAudioIOService shared] setInputBlock:^(AudioBuffer buffer){
+        [self.videoChat processVideoChatCaptureAudioBuffer:buffer];
+    }];
+    //
+    [[QBAudioIOService shared] start];
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput  didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
@@ -187,32 +195,47 @@ static QBRingBuffer *ringBuffer;
     return [self cameraWithPosition:AVCaptureDevicePositionFront];
 }
 
--(void)didReceiveAudioData:(float *)data lenght:(NSUInteger)lenght channels:(int)channels{
+- (void)didReceiveAudioBuffer:(AudioBuffer)buffer{
 	
-    // Save data to the buffer
+    // Put audio into circular buffer
     //
-	ringBuffer->AddNewInterleavedFloatData(data, lenght, channels);
-	
-	QBAudioIOService *audioManager = [QBAudioIOService audioManager];
-	__block QBAudioIOService *__weakAudioSession = audioManager;
-	
-	if([audioManager outputBlock] == nil){
-		[audioManager setOutputBlock:^(float *outData, UInt32 numFrames, UInt32 numChannels) {
-			
-			// read if exist unread frames
-            // send data to current output mic
+    TPCircularBufferProduceBytes(&circularBuffer, buffer.mData, buffer.mDataByteSize);
+    
+    // Get number of bytes in circular buffer
+    //
+    int32_t availableBytes;
+    TPCircularBufferTail(&circularBuffer, &availableBytes);
+
+    // If output block is NIL and we have audio data for 0.5 second
+    //
+	if([[QBAudioIOService shared] outputBlock] == nil && availableBytes > qbAudioDataSizeForSecods(0.5)){
+        
+        QBDLogEx(@"Set output block");
+        [[QBAudioIOService shared] setOutputBlock:^(AudioBuffer buffer) {
+            
+            int32_t availableBytesInBuffer;
+            void *cbuffer = TPCircularBufferTail(&circularBuffer, &availableBytesInBuffer);
+            
+            // Read audio data if exist
+            if(availableBytesInBuffer > 0){
+                int min = MIN(buffer.mDataByteSize, availableBytesInBuffer);
+                memcpy(buffer.mData, cbuffer, min);
+                TPCircularBufferConsume(&circularBuffer, min);
+            }else{
+                // No data to play -> mute output
+                QBDLogEx(@"No data to play -> mute output");
+                [[QBAudioIOService shared] setOutputBlock:nil];
+            }
+            
+            // If there is to much audio data to play -> clear buffer & mute output
             //
-			if(ringBuffer->NumUnreadFrames(0) > 0){
-				ringBuffer->FetchInterleavedData(outData, numFrames, numChannels);
-			}else{
-				[__weakAudioSession setOutputBlock:nil];
-			}
-			
-			// Correction (if have to much unread data)
-			if(ringBuffer->NumUnreadFrames(0) > 256 * 12) {// 0.032*12 = 384ms max delay
-				ringBuffer->Clear();
-			}
-		}];
+            if(availableBytes > qbAudioDataSizeForSecods(3)) {
+                QBDLogEx(@"There is to much audio data to play -> clear buffer & mute output");
+                TPCircularBufferClear(&circularBuffer);
+                
+                [[QBAudioIOService shared] setOutputBlock:nil];
+            }
+        }];
 	}
 }
 
@@ -222,9 +245,9 @@ static QBRingBuffer *ringBuffer;
 
 - (IBAction)audioOutputDidChange:(UISegmentedControl *)sender{
     if(sender.selectedSegmentIndex == 0){
-        [[QBAudioIOService audioManager] routeToSpeaker];
+        [[QBAudioIOService shared] routeToSpeaker];
     }else{
-        [[QBAudioIOService audioManager] routeToHeadphone];
+        [[QBAudioIOService shared] routeToHeadphone];
     }
 }
 
