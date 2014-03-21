@@ -18,8 +18,12 @@
 		43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDD160893D500DDBF12 /* UIKit.framework */; };
 		43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDF160893D500DDBF12 /* Foundation.framework */; };
 		43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BE1160893D500DDBF12 /* CoreGraphics.framework */; };
+		86618BF118DC49A100E1E278 /* libQuickblox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86618BEF18DC49A100E1E278 /* libQuickblox.a */; };
+		86618BF218DC49A100E1E278 /* libQuickblox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86618BF018DC49A100E1E278 /* libQuickblox.a */; };
+		86E58B3018DC4E60007FCEE8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 86E58B2F18DC4E60007FCEE8 /* libsqlite3.dylib */; };
+		86E58B3218DC4E6D007FCEE8 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 86E58B3118DC4E6D007FCEE8 /* libstdc++.dylib */; };
+		86E58B3418DC4EEA007FCEE8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86E58B3318DC4EEA007FCEE8 /* OpenGLES.framework */; };
 		BF67F8581843F6410066F4C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF67F8571843F6410066F4C9 /* Security.framework */; };
-		BFE0FF64188700F0002BCDC1 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE0FF63188700F0002BCDC1 /* Quickblox.framework */; };
 		FA078F7C16C94833003E8E5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6216C94833003E8E5A /* AppDelegate.m */; };
 		FA078F7D16C94833003E8E5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA078F6316C94833003E8E5A /* InfoPlist.strings */; };
 		FA078F7E16C94833003E8E5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6516C94833003E8E5A /* main.m */; };
@@ -57,8 +61,13 @@
 		43774BDD160893D500DDBF12 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		43774BDF160893D500DDBF12 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		43774BE1160893D500DDBF12 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		86618BEF18DC49A100E1E278 /* libQuickblox.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libQuickblox.a; path = "../SDK-ios/Framework/build/Debug-iphoneos/libQuickblox.a"; sourceTree = "<group>"; };
+		86618BF018DC49A100E1E278 /* libQuickblox.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libQuickblox.a; path = "../SDK-ios/Framework/build/Debug-iphonesimulator/libQuickblox.a"; sourceTree = "<group>"; };
+		86E58B2E18DC4E0F007FCEE8 /* Quickblox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quickblox.h; path = "../../SDK-ios/Framework/Quickblox.h"; sourceTree = "<group>"; };
+		86E58B2F18DC4E60007FCEE8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		86E58B3118DC4E6D007FCEE8 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		86E58B3318DC4EEA007FCEE8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF67F8571843F6410066F4C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		BFE0FF63188700F0002BCDC1 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		FA078F6116C94833003E8E5A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA078F6216C94833003E8E5A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FA078F6416C94833003E8E5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -92,6 +101,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86E58B3418DC4EEA007FCEE8 /* OpenGLES.framework in Frameworks */,
+				86E58B3218DC4E6D007FCEE8 /* libstdc++.dylib in Frameworks */,
+				86E58B3018DC4E60007FCEE8 /* libsqlite3.dylib in Frameworks */,
+				86618BF118DC49A100E1E278 /* libQuickblox.a in Frameworks */,
+				86618BF218DC49A100E1E278 /* libQuickblox.a in Frameworks */,
 				BF67F8581843F6410066F4C9 /* Security.framework in Frameworks */,
 				FAFF373916C2BF4100676978 /* AudioToolbox.framework in Frameworks */,
 				FAFF373716C2BF0500676978 /* Accelerate.framework in Frameworks */,
@@ -110,7 +124,6 @@
 				43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */,
 				43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */,
 				43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */,
-				BFE0FF64188700F0002BCDC1 /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +152,11 @@
 		43774BDC160893D500DDBF12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BFE0FF63188700F0002BCDC1 /* Quickblox.framework */,
+				86E58B3318DC4EEA007FCEE8 /* OpenGLES.framework */,
+				86E58B3118DC4E6D007FCEE8 /* libstdc++.dylib */,
+				86E58B2F18DC4E60007FCEE8 /* libsqlite3.dylib */,
+				86618BEF18DC49A100E1E278 /* libQuickblox.a */,
+				86618BF018DC49A100E1E278 /* libQuickblox.a */,
 				BF67F8571843F6410066F4C9 /* Security.framework */,
 				FAFF373816C2BF4100676978 /* AudioToolbox.framework */,
 				FAFF373616C2BF0500676978 /* Accelerate.framework */,
@@ -165,6 +182,7 @@
 		FA078F6016C94833003E8E5A /* VideoChat-sample-ios */ = {
 			isa = PBXGroup;
 			children = (
+				86E58B2E18DC4E0F007FCEE8 /* Quickblox.h */,
 				FA078F6116C94833003E8E5A /* AppDelegate.h */,
 				FA078F6216C94833003E8E5A /* AppDelegate.m */,
 				FA078F7316C94833003E8E5A /* ViewController */,
@@ -410,8 +428,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Christopher deCharms (E5R8B72744)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Khomenko Igor (67859YS754)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
@@ -420,6 +438,12 @@
 				GCC_PREFIX_HEADER = "VideoChat-sample-ios/videoChat-Prefix.pch";
 				INFOPLIST_FILE = "VideoChat-sample-ios/videoChat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/VideoChat-fdigircshxdpnogorjygqbrzrkxt/Build/Products/Debug-iphoneos",
+					"/Users/andrey.moskvin/Development/SDK-ios/Framework/build/Debug-iphoneos",
+					"/Users/andrey.moskvin/Development/SDK-ios/Framework/build/Debug-iphonesimulator",
+				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-ObjC",
@@ -431,7 +455,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = VideoChat;
-				PROVISIONING_PROFILE = "4E93C748-E5BA-4590-B9AA-9F3BD4E50885";
+				PROVISIONING_PROFILE = "341A0B06-E316-4E0F-AE3B-DCDEDF8305A4";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -452,14 +476,20 @@
 				GCC_PREFIX_HEADER = "VideoChat-sample-ios/videoChat-Prefix.pch";
 				INFOPLIST_FILE = "VideoChat-sample-ios/videoChat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/VideoChat-fdigircshxdpnogorjygqbrzrkxt/Build/Products/Debug-iphoneos",
+					"/Users/andrey.moskvin/Development/SDK-ios/Framework/build/Debug-iphoneos",
+					"/Users/andrey.moskvin/Development/SDK-ios/Framework/build/Debug-iphonesimulator",
+				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-ObjC",
 					"-lstdc++",
 				);
 				PRODUCT_NAME = VideoChat;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6CD57DC1-6F15-4610-A610-90E56209EAF7";
+				PROVISIONING_PROFILE = "341A0B06-E316-4E0F-AE3B-DCDEDF8305A4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "341A0B06-E316-4E0F-AE3B-DCDEDF8305A4";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
