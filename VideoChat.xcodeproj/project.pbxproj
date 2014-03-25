@@ -457,6 +457,7 @@
 				PRODUCT_NAME = VideoChat;
 				PROVISIONING_PROFILE = "341A0B06-E316-4E0F-AE3B-DCDEDF8305A4";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -491,6 +492,7 @@
 				PROVISIONING_PROFILE = "341A0B06-E316-4E0F-AE3B-DCDEDF8305A4";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "341A0B06-E316-4E0F-AE3B-DCDEDF8305A4";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
