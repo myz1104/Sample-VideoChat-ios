@@ -10,6 +10,9 @@
 #import "AppDelegate.h"
 
 @interface MainViewController ()
+
+@property (nonatomic, strong) NSDictionary* customParameters;
+
 @end
 @implementation MainViewController
 
@@ -63,13 +66,13 @@
 
 - (IBAction)audioOutputDidChange:(UISegmentedControl *)sender{
     if(self.videoChat != nil){
-        self.videoChat.useHeadphone = sender.selectedSegmentIndex;
+//        self.videoChat.useHeadphone = sender.selectedSegmentIndex;
     }
 }
 
 - (IBAction)videoOutputDidChange:(UISegmentedControl *)sender{
     if(self.videoChat != nil){
-        self.videoChat.useBackCamera = sender.selectedSegmentIndex;
+//        self.videoChat.useBackCamera = sender.selectedSegmentIndex;
     }
 }
 
@@ -81,16 +84,9 @@
         // Setup video chat
         //
         if(self.videoChat == nil){
-            self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstance];
-            self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-            self.videoChat.viewToRenderOwnVideoStream = myVideoView;
+            self.videoChat = [[QBChat instance] createWebRTCVideoChatInstance];
         }
         
-        // Set Audio & Video output
-        //
-        self.videoChat.useHeadphone = audioOutput.selectedSegmentIndex;
-        self.videoChat.useBackCamera = videoOutput.selectedSegmentIndex;
-    
         // Call user by ID
         //
         [self.videoChat callUser:[opponentID integerValue] conferenceType:QBVideoChatConferenceTypeAudioAndVideo];
@@ -122,30 +118,30 @@
         
         // release video chat
         //
-        [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+        [[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
         self.videoChat = nil;
     }
 }
 
 - (void)reject{
-    // Reject call
-    //
-    if(self.videoChat == nil){
-        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:sessionID];
-    }
-    [self.videoChat rejectCallWithOpponentID:videoChatOpponentID];
-    //
-    //
-    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
-    self.videoChat = nil;
-
-    // update UI
-    callButton.hidden = NO;
-    ringigngLabel.hidden = YES;
-    
-    // release player
-    [ringingPlayer release];
-    ringingPlayer = nil;
+//    // Reject call
+//    //
+//    if(self.videoChat == nil){
+//        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:sessionID];
+//    }
+//    [self.videoChat rejectCallWithOpponentID:videoChatOpponentID];
+//    //
+//    //
+//    [[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
+//    self.videoChat = nil;
+//
+//    // update UI
+//    callButton.hidden = NO;
+//    ringigngLabel.hidden = YES;
+//    
+//    // release player
+//    [ringingPlayer release];
+//    ringingPlayer = nil;
 }
 
 - (void)accept{
@@ -154,19 +150,12 @@
     // Setup video chat
     //
     if(self.videoChat == nil){
-        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:sessionID];
-        self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-        self.videoChat.viewToRenderOwnVideoStream = myVideoView;
+        self.videoChat = [[QBChat instance] createAndRegisterWebRTCVideoChatInstanceWithSessionID:sessionID];
     }
-    
-    // Set Audio & Video output
-    //
-    self.videoChat.useHeadphone = audioOutput.selectedSegmentIndex;
-    self.videoChat.useBackCamera = videoOutput.selectedSegmentIndex;
     
     // Accept call
     //
-    [self.videoChat acceptCallWithOpponentID:videoChatOpponentID conferenceType:videoChatConferenceType];
+    [self.videoChat acceptCallWithOpponentID:videoChatOpponentID conferenceType:videoChatConferenceType customParameters:self.customParameters];
 
     ringigngLabel.hidden = YES;
     callButton.hidden = NO;
@@ -204,9 +193,14 @@
 //
 // VideoChat delegate
 
--(void) chatDidReceiveCallRequestFromUser:(NSUInteger)userID withSessionID:(NSString *)_sessionID conferenceType:(enum QBVideoChatConferenceType)conferenceType{
+-(void) chatDidReceiveCallRequestFromUser:(NSUInteger)userID
+							withSessionID:(NSString *)_sessionID
+						   conferenceType:(enum QBVideoChatConferenceType)conferenceType
+						 customParameters:(NSDictionary *)customParameters{
     NSLog(@"chatDidReceiveCallRequestFromUser %d", userID);
     
+	self.customParameters = customParameters;
+	
     // save  opponent data
     videoChatOpponentID = userID;
     videoChatConferenceType = conferenceType;
@@ -312,7 +306,7 @@
     
     // release video chat
     //
-    [[QBChat instance] unregisterVideoChatInstance:self.videoChat];
+    [[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
     self.videoChat = nil;
 }
 

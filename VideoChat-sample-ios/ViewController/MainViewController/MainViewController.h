@@ -33,7 +33,7 @@
 }
 
 @property (retain) NSNumber *opponentID;
-@property (retain) QBVideoChat *videoChat;
+@property (retain) QBWebRTCVideoChat *videoChat;
 @property (retain) UIAlertView *callAlert;
 
 - (IBAction)call:(id)sender;
