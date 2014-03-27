@@ -85,6 +85,7 @@
         //
         if(self.videoChat == nil){
             self.videoChat = [[QBChat instance] createWebRTCVideoChatInstance];
+			self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
         }
         
         // Call user by ID
@@ -107,7 +108,6 @@
         
         myVideoView.hidden = YES;
         opponentVideoView.layer.contents = (id)[[UIImage imageNamed:@"person.png"] CGImage];
-        opponentVideoView.image = [UIImage imageNamed:@"person.png"];
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
         
@@ -151,6 +151,7 @@
     //
     if(self.videoChat == nil){
         self.videoChat = [[QBChat instance] createAndRegisterWebRTCVideoChatInstanceWithSessionID:sessionID];
+		self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
     }
     
     // Accept call

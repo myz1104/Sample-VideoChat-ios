@@ -13,13 +13,14 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
+@class QBVideoView;
 @interface MainViewController : UIViewController <QBChatDelegate, AVAudioPlayerDelegate, UIAlertViewDelegate>{
     IBOutlet UIButton *callButton;
     IBOutlet UILabel *ringigngLabel;
     IBOutlet UIActivityIndicatorView *callingActivityIndicator;
     IBOutlet UIActivityIndicatorView *startingCallActivityIndicator;
-    IBOutlet UIImageView *opponentVideoView;
-    IBOutlet UIImageView *myVideoView;
+    IBOutlet QBVideoView *opponentVideoView;
+    IBOutlet QBVideoView *myVideoView;
     IBOutlet UINavigationBar *navBar;
     IBOutlet UISegmentedControl *audioOutput;
     IBOutlet UISegmentedControl *videoOutput;

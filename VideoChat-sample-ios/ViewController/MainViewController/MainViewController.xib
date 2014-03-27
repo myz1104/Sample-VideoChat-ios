@@ -12,7 +12,7 @@
                 <outlet property="callingActivityIndicator" destination="26" id="37"/>
                 <outlet property="myVideoView" destination="28" id="29"/>
                 <outlet property="navBar" destination="32" id="34"/>
-                <outlet property="opponentVideoView" destination="24" id="25"/>
+                <outlet property="opponentVideoView" destination="jd3-dT-vST" id="z1Z-n4-SPc"/>
                 <outlet property="ringigngLabel" destination="17" id="21"/>
                 <outlet property="startingCallActivityIndicator" destination="35" id="36"/>
                 <outlet property="videoOutput" destination="XPz-zA-Jta" id="gqQ-vI-pMW"/>
@@ -41,10 +41,11 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.png" id="24" userLabel="OpponentVideo">
+                <view contentMode="scaleToFill" id="jd3-dT-vST" customClass="QBVideoView">
                     <rect key="frame" x="77" y="49" width="176" height="189"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" animating="YES" style="gray" id="26" userLabel="Calling Activity Indicator">
                     <rect key="frame" x="155" y="402" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -107,7 +108,4 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
-    <resources>
-        <image name="person.png" width="456" height="595"/>
-    </resources>
 </document>
