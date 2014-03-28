@@ -123,25 +123,26 @@
     }
 }
 
-- (void)reject{
-//    // Reject call
-//    //
-//    if(self.videoChat == nil){
-//        self.videoChat = [[QBChat instance] createAndRegisterVideoChatInstanceWithSessionID:sessionID];
-//    }
-//    [self.videoChat rejectCallWithOpponentID:videoChatOpponentID];
-//    //
-//    //
-//    [[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
-//    self.videoChat = nil;
-//
-//    // update UI
-//    callButton.hidden = NO;
-//    ringigngLabel.hidden = YES;
-//    
-//    // release player
-//    [ringingPlayer release];
-//    ringingPlayer = nil;
+- (void)reject
+{
+    // Reject call
+    //
+    if(self.videoChat == nil){
+        self.videoChat = [[QBChat instance] createAndRegisterWebRTCVideoChatInstanceWithSessionID:sessionID];
+    }
+    [self.videoChat rejectCallWithOpponentID:videoChatOpponentID];
+    //
+    //
+    [[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
+    self.videoChat = nil;
+
+    // update UI
+    callButton.hidden = NO;
+    ringigngLabel.hidden = YES;
+    
+    // release player
+    [ringingPlayer release];
+    ringingPlayer = nil;
 }
 
 - (void)accept{
@@ -219,10 +220,6 @@
         self.callAlert = [[UIAlertView alloc] initWithTitle:@"Call" message:message delegate:self cancelButtonTitle:@"Decline" otherButtonTitles:@"Accept", nil];
         [self.callAlert show];
     }
-    
-    // hide call alert if opponent has canceled call
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideCallAlert) object:nil];
-    [self performSelector:@selector(hideCallAlert) withObject:nil afterDelay:4];
     
     // play call music
     //
