@@ -293,7 +293,7 @@
 				ORGANIZATIONNAME = Ruslan;
 				TargetAttributes = {
 					43774BD8160893D500DDBF12 = {
-						DevelopmentTeam = 8885H5G2YX;
+						DevelopmentTeam = 82994PAQEW;
 					};
 				};
 			};
@@ -455,7 +455,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = VideoChat;
-				PROVISIONING_PROFILE = "E65F6C59-7597-41F2-9A02-B0453D6532AF";
+				PROVISIONING_PROFILE = "E6DD5DA0-F7CA-4AA0-8BE8-597FE710088B";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -467,8 +467,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Videu, LLC (82994PAQEW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Videu, LLC (82994PAQEW)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
@@ -489,8 +489,8 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = VideoChat;
-				PROVISIONING_PROFILE = "E65F6C59-7597-41F2-9A02-B0453D6532AF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E65F6C59-7597-41F2-9A02-B0453D6532AF";
+				PROVISIONING_PROFILE = "7F240702-973D-4967-8E60-12B57EE9F5E3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7F240702-973D-4967-8E60-12B57EE9F5E3";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
