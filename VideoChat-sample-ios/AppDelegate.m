@@ -45,7 +45,7 @@
     [videoChatConfiguration setObject:@2 forKey:kQBVideoChatVideoFramesPerSecond];
     [videoChatConfiguration setObject:@3 forKey:kQBVideoChatP2PTimeout];
     [QBSettings setVideoChatConfiguration:videoChatConfiguration];
-
+	[videoChatConfiguration release];
 
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
