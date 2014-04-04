@@ -107,7 +107,7 @@
         [self.videoChat finishCall];
         
         myVideoView.hidden = YES;
-        opponentVideoView.layer.contents = nil;
+		
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [callButton setTitle:appDelegate.currentUser == 1 ? @"Call User2" : @"Call User1" forState:UIControlStateNormal];
         
@@ -122,6 +122,7 @@
         self.videoChat = nil;
     }
 }
+
 
 - (void)reject
 {
@@ -249,6 +250,9 @@
 -(void) chatCallDidRejectByUser:(NSUInteger)userID{
      NSLog(@"chatCallDidRejectByUser %d", userID);
     
+	[[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
+    self.videoChat = nil;
+	
     callButton.hidden = NO;
     ringigngLabel.hidden = YES;
     callingActivityIndicator.hidden = YES;
