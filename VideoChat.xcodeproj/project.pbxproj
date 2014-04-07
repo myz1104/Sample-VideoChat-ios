@@ -19,9 +19,9 @@
 		43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BDF160893D500DDBF12 /* Foundation.framework */; };
 		43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43774BE1160893D500DDBF12 /* CoreGraphics.framework */; };
 		BF67F8581843F6410066F4C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF67F8571843F6410066F4C9 /* Security.framework */; };
-		BFA306F11846522000A034A4 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA306F01846522000A034A4 /* Quickblox.framework */; };
 		BFE0FF551886A6A3002BCDC1 /* TPCircularBuffer+AudioBufferList.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE0FF521886A6A3002BCDC1 /* TPCircularBuffer+AudioBufferList.mm */; };
 		BFE0FF561886A6A3002BCDC1 /* TPCircularBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE0FF541886A6A3002BCDC1 /* TPCircularBuffer.mm */; };
+		BFFEEF7F18F2FA3B00D0BB53 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFFEEF7E18F2FA3B00D0BB53 /* Quickblox.framework */; };
 		FA078F7C16C94833003E8E5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6216C94833003E8E5A /* AppDelegate.m */; };
 		FA078F7D16C94833003E8E5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA078F6316C94833003E8E5A /* InfoPlist.strings */; };
 		FA078F7E16C94833003E8E5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA078F6516C94833003E8E5A /* main.m */; };
@@ -60,11 +60,11 @@
 		43774BDF160893D500DDBF12 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		43774BE1160893D500DDBF12 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BF67F8571843F6410066F4C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		BFA306F01846522000A034A4 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		BFE0FF511886A6A3002BCDC1 /* TPCircularBuffer+AudioBufferList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer+AudioBufferList.h"; sourceTree = "<group>"; };
 		BFE0FF521886A6A3002BCDC1 /* TPCircularBuffer+AudioBufferList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "TPCircularBuffer+AudioBufferList.mm"; sourceTree = "<group>"; };
 		BFE0FF531886A6A3002BCDC1 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
 		BFE0FF541886A6A3002BCDC1 /* TPCircularBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TPCircularBuffer.mm; sourceTree = "<group>"; };
+		BFFEEF7E18F2FA3B00D0BB53 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		FA078F6116C94833003E8E5A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA078F6216C94833003E8E5A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FA078F6416C94833003E8E5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 				43774BDE160893D500DDBF12 /* UIKit.framework in Frameworks */,
 				43774BE0160893D500DDBF12 /* Foundation.framework in Frameworks */,
 				43774BE2160893D500DDBF12 /* CoreGraphics.framework in Frameworks */,
-				BFA306F11846522000A034A4 /* Quickblox.framework in Frameworks */,
+				BFFEEF7F18F2FA3B00D0BB53 /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,7 +145,7 @@
 		43774BDC160893D500DDBF12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BFA306F01846522000A034A4 /* Quickblox.framework */,
+				BFFEEF7E18F2FA3B00D0BB53 /* Quickblox.framework */,
 				BF67F8571843F6410066F4C9 /* Security.framework */,
 				FAFF373816C2BF4100676978 /* AudioToolbox.framework */,
 				FAFF373616C2BF0500676978 /* Accelerate.framework */,
@@ -435,6 +435,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					.,
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoChat-sample-ios/videoChat-Prefix.pch";
@@ -451,7 +452,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = VideoChat;
-				PROVISIONING_PROFILE = "4439414C-B5FA-4E36-8DC5-AD76CF81576B";
+				PROVISIONING_PROFILE = "E65F6C59-7597-41F2-9A02-B0453D6532AF";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -467,6 +468,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					.,
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoChat-sample-ios/videoChat-Prefix.pch";
@@ -478,7 +480,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = VideoChat;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "E65F6C59-7597-41F2-9A02-B0453D6532AF";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6CD57DC1-6F15-4610-A610-90E56209EAF7";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;

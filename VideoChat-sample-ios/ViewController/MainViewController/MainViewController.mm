@@ -132,6 +132,9 @@
         conn.videoMaxFrameDuration = CMTimeMake(1, framesPerSecond);
     }
     
+    // set portrait orientation
+    [conn setVideoOrientation:AVCaptureVideoOrientationPortrait];
+    
     /*We create a serial queue to handle the processing of our frames*/
     dispatch_queue_t callbackQueue= dispatch_queue_create("cameraQueue", NULL);
     [videoCaptureOutput setSampleBufferDelegate:self queue:callbackQueue];
@@ -277,6 +280,10 @@
             QBDLogEx(@"cantAddInput");
         }
     }
+    
+    // set portrait orientation
+    AVCaptureConnection *conn = [self.captureSession.outputs[0] connectionWithMediaType:AVMediaTypeVideo];
+    [conn setVideoOrientation:AVCaptureVideoOrientationPortrait];
     
     [self.captureSession commitConfiguration];
 }
