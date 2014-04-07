@@ -28,10 +28,18 @@
     [application setIdleTimerDisabled:YES];
     
     //
-    // This is test oppoents. This is 2 users' logins/passwords & ids
+    // There are 2 tests opponents:
     //
-    self.testOpponents = @[@"videoChatUser1", @65421,
-                      @"videoChatUser2", @65422];
+    // User1:
+    //  -ID: 65421
+    //  -login: videoChatUser1
+    //  -password: videoChatUser1pass
+    // User2:
+    //  -ID: 65422
+    //  -login: videoChatUser2
+    //  -password: videoChatUser2pass
+    self.testOpponents = @[@"videoChatUser1", @"videoChatUser1pass", @65421,
+                           @"videoChatUser2", @"videoChatUser2pass", @65422];
     
     //
     // Set QuickBlox credentials. Register at admin.quickblox.com, create a new app
