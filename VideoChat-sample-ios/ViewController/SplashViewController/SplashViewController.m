@@ -47,7 +47,7 @@
     //
     QBASessionCreationRequest *extendedAuthRequest = [QBASessionCreationRequest request];
     extendedAuthRequest.userLogin = appDelegate.testOpponents[0];
-    extendedAuthRequest.userPassword = appDelegate.testOpponents[0];
+    extendedAuthRequest.userPassword = appDelegate.testOpponents[1];
     [QBAuth createSessionWithExtendedRequest:extendedAuthRequest delegate:self];
     
     [activityIndicator startAnimating];
@@ -65,8 +65,8 @@
     // Create extended session request with user authorization
     //
     QBASessionCreationRequest *extendedAuthRequest = [QBASessionCreationRequest request];
-    extendedAuthRequest.userLogin = appDelegate.testOpponents[2];
-    extendedAuthRequest.userPassword = appDelegate.testOpponents[2];
+    extendedAuthRequest.userLogin = appDelegate.testOpponents[3];
+    extendedAuthRequest.userPassword = appDelegate.testOpponents[4];
     [QBAuth createSessionWithExtendedRequest:extendedAuthRequest delegate:self];
     
     [activityIndicator startAnimating];
@@ -95,7 +95,7 @@
             
             QBUUser *user = [QBUUser user];
             user.ID = ((QBAAuthSessionCreationResult *)result).session.userID;
-            user.password = appDelegate.currentUser == 1 ? appDelegate.testOpponents[0] : appDelegate.testOpponents[2];
+            user.password = appDelegate.currentUser == 1 ? appDelegate.testOpponents[1] : appDelegate.testOpponents[4];
             
             // Login to QuickBlox Chat
             //
@@ -120,7 +120,7 @@
     // Show Main controller
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MainViewController *mainViewController = [[MainViewController alloc] init];
-    mainViewController.opponentID = appDelegate.currentUser == 1 ? appDelegate.testOpponents[3] : appDelegate.testOpponents[1];
+    mainViewController.opponentID = appDelegate.currentUser == 1 ? appDelegate.testOpponents[5] : appDelegate.testOpponents[2];
     [self presentModalViewController:mainViewController animated:YES];
     [mainViewController release];
 }
