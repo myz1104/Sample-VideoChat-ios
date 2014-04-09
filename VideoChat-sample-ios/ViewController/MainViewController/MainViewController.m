@@ -83,10 +83,8 @@
         
         // Setup video chat
         //
-        if(self.videoChat == nil){
-            self.videoChat = [[QBChat instance] createWebRTCVideoChatInstance];
-			self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-        }
+		self.videoChat = [[QBChat instance] createWebRTCVideoChatInstance];
+		self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
         
         // Call user by ID
         //
@@ -119,7 +117,6 @@
         // release video chat
         //
         [[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
-        self.videoChat = nil;
     }
 }
 
@@ -128,14 +125,12 @@
 {
     // Reject call
     //
-    if(self.videoChat == nil){
-        self.videoChat = [[QBChat instance] createAndRegisterWebRTCVideoChatInstanceWithSessionID:sessionID];
-    }
+	self.videoChat = [[QBChat instance] createAndRegisterWebRTCVideoChatInstanceWithSessionID:sessionID];
+
     [self.videoChat rejectCallWithOpponentID:videoChatOpponentID];
     //
     //
     [[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
-    self.videoChat = nil;
 
     // update UI
     callButton.hidden = NO;
@@ -151,10 +146,8 @@
     
     // Setup video chat
     //
-    if(self.videoChat == nil){
-        self.videoChat = [[QBChat instance] createAndRegisterWebRTCVideoChatInstanceWithSessionID:sessionID];
-		self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
-    }
+	self.videoChat = [[QBChat instance] createAndRegisterWebRTCVideoChatInstanceWithSessionID:sessionID];
+	self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
     
     // Accept call
     //
@@ -251,7 +244,6 @@
      NSLog(@"chatCallDidRejectByUser %d", userID);
     
 	[[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
-    self.videoChat = nil;
 	
     callButton.hidden = NO;
     ringigngLabel.hidden = YES;
@@ -308,7 +300,6 @@
     // release video chat
     //
     [[QBChat instance] unregisterWebRTCVideoChatInstance:self.videoChat];
-    self.videoChat = nil;
 }
 
 - (void)chatCallDidStartWithUser:(NSUInteger)userID sessionID:(NSString *)sessionID{
