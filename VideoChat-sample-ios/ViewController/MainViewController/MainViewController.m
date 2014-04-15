@@ -148,6 +148,8 @@
     //
 	self.videoChat = [[QBChat instance] createAndRegisterWebRTCVideoChatInstanceWithSessionID:sessionID];
 	self.videoChat.viewToRenderOpponentVideoStream = opponentVideoView;
+	
+	self.videoChat.viewToRenderOpponentVideoStream.remoteVideoOrientation = [QBChatUtils interfaceOrientationFromString:self.customParameters[qbvideochat_device_orientation]];
     
     // Accept call
     //
