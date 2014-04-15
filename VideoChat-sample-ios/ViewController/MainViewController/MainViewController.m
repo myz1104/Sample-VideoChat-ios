@@ -175,6 +175,16 @@
     callButton.hidden = NO;
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+	return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotate
+{
+	return YES;
+}
+
 #pragma mark -
 #pragma mark AVAudioPlayerDelegate
 
@@ -310,7 +320,7 @@
 //    NSLog(@"_____TURN_____TURN_____");
 }
 
-
+ 
 #pragma mark -
 #pragma mark UIAlertView
 
