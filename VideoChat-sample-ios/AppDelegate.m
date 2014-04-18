@@ -30,8 +30,8 @@
     //
     // There are tests oppoents. There are 2 users' logins/passwords & ids
     //
-    self.testOpponents = @[@"iostester3", @986408,
-						   @"iostester4", @986409];
+    self.testOpponents = @[@"ios_android1", @1010049,
+						   @"ios_android2", @1010050];
     //
     // Set QuickBlox credentials. Register at admin.quickblox.com, create a new app
     // and copy credentials here to have your own backend instance enabled.
